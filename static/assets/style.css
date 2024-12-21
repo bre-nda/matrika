@@ -1,0 +1,467 @@
+/*
+* Style tweaks
+* --------------------------------------------------
+*/
+html,
+body {
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+body {
+    padding-top: 120px;
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
+}
+/* footer {
+    padding: 30px 0;
+} */
+
+/*
+ * Navbar styles
+ */
+
+
+.texty{
+    position: absolute; 
+    top: 0;
+    z-index: 1031;
+    width: 100%;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 10px;
+    background-color: #cab9a9;
+    /* background-color: #11142b; */
+    color: #181818;
+    font-weight: 350;
+
+}
+.texty p{
+    font-size: 15px;
+}
+.zesty{
+    width: 100%;
+}
+.texty a{
+    color: #181818;
+    font-weight: 350;
+    margin-left: 100rem;
+    font-size: 18px;
+}
+
+.navbar-brand {
+    font-size: 30px;
+   
+}
+.navbar-header{
+  margin-left: 55rem;
+  position: fixed;
+  /* display: block; */
+  /* color: #181818;
+  font-family: "Pacifico", cursive;
+  font-size: 700; */
+    
+}
+#brand{
+    /* margin-left: 20rem; */
+    color: #181818;
+    font-family: "Pacifico", cursive;
+    font-size: 700;
+    
+}
+#brand.fixed-theme{
+    color: #d4d1d1;
+    font-size: 30px;
+}
+/* .nest{
+  color: #f58ada;
+} */
+
+
+
+
+
+.navbar-container {
+    padding: 60px 0 20px 0;
+}
+
+.navbar.navbar-fixed-top.fixed-theme {
+    /* background-color: #11142b; */
+    background-color: #756352;
+    border-color: #080808;
+    box-shadow: 0 0 5px rgba(0,0,0,.8);
+}
+
+.navbar-brand.fixed-theme {
+    font-size: 20px;
+}
+
+.navbar-container.fixed-theme {
+    padding: 12px;
+}
+
+.navbar-brand.fixed-theme,
+.navbar-container.fixed-theme,
+.navbar.navbar-fixed-top.fixed-theme,
+.navbar-brand,
+.navbar-container{
+    transition: 0.8s;
+    -webkit-transition:  0.8s;
+}
+.nav.navbar-nav{
+  display: inline-block;
+  margin-left: -10rem;
+  font-size: 20px;
+}
+.navbar-nav a {
+  color: #181818;
+}
+#list.fixed-theme{
+    color: #d4d1d1;
+}
+#list.fixed-theme:hover{
+  color: #bdbaba;
+  color: #181818;
+}
+#bout.fixed-theme{
+    color: #d4d1d1;
+}
+#bout.fixed-theme:hover{
+  color: #bdbaba;
+  color: #181818;
+}
+#tact.fixed-theme{
+    color: #d4d1d1;
+}
+#tact.fixed-theme:hover{
+  color: #bdbaba;
+  color: #181818;
+}
+.usery{
+  margin-left: 110rem;
+  margin-top: 12px;
+  /* margin-top: -0.8rem; */
+  display: flex;
+  align-items: center;
+}
+#user{
+    color: #181818;
+    margin-left: 5rem;
+}
+#user.fixed-theme{
+    color: #d4d1d1;
+    margin-bottom: 18px;
+}
+#search {
+  color: #181818;
+  /* margin-right: 1rem; */
+  font-size: 20px;
+}
+#search.fixed-theme{
+  color: #d4d1d1;
+  margin-top: -1.8rem;
+}
+.fa-phone{
+    font-size: 10px;
+    
+}
+#mat.fixed-theme{
+    color: #d4d1d1;
+}
+#mat.fixed-theme:hover{
+  color: #bdbaba;
+  color: #181818;
+}
+/* Dropdown menu styling */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f2f2f2;
+  min-width: 200px;
+  padding: 10px 0;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.dropdown-menu li {
+  list-style: none;
+}
+
+.dropdown-menu li a {
+  color: #11142b;
+  text-decoration: none;
+  padding: 8px 15px;
+  display: block;
+  font-size: 16px;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+
+
+/* end of navbar */
+/* .................................. */
+
+/* continuous image styles */
+/* .bodyy {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    object-fit: cover;
+  } */
+  .carousel-container {
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    margin-top: -20px;
+
+    /* z-index: 3; */
+  }
+
+  
+  /* Hide the images by default */
+  .mySlides {
+    display: none;
+  }
+  .mySlides img {
+    display: block;
+    width: 100%;
+    height: 80vh;
+    object-fit: cover;
+    overflow: hidden;
+    position:absolute; 
+    filter: brightness(65%);
+
+    
+  }
+  
+  /* image gradient overlay [optional] */
+  /*  .mySlides::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+      background-image: linear-gradient(-45deg, rgba(110, 0, 255, .1), rgba(70, 0, 255, .2));
+  } */
+  
+  /* Next & previous buttons */
+
+  .prev,
+  .next {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    top: 40%;
+    transform: translate(0, -50%);
+    /* width: auto; */
+    width: 65px;
+    height: 68px;
+    padding: 17px 20px 20px 20px;
+    /* color: white; */
+    font-weight: 900;
+    font-size: 24px;
+    border-radius: 50%;
+    border: 1px white solid;
+    user-select: none;
+    color:#b3b0b0;
+  }
+  .next {
+    right: 0;
+    border-radius: 50%;
+    /* border-radius: 8px 0 0 8px; */
+  }
+  .prev:hover,
+  .next:hover {
+    background-color: rgba(173, 216, 230, 0.3);
+    color: #f2f2f2;
+  }
+  
+  /* Caption text */
+  .text {
+    color: #f2f2f2;
+    background-color: rgba(10, 10, 20, 0.1);
+    backdrop-filter: blur(6px);
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 150px;
+    left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+  }
+  
+  /* Number text (1/3 etc) */
+  .number {
+    color: #f2f2f2;
+    font-size: 16px;
+    background-color: rgba(173, 216, 230, 0.15);
+    backdrop-filter: blur(6px);
+    border-radius: 10px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+  /* .dots-container {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%);
+  } */
+  .dots-container {
+    position: absolute;
+    top: 30%; /* Align vertically at the center */
+    left: 10px; /* Position the dots container on the left side */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    display: flex;
+    flex-direction: column; /* Stack dots vertically */
+    gap: 12px; /* Add spacing between dots */
+}
+
+/* Add border animation for active dots */
+
+  /* The dots/bullets/indicators */
+  .dots {
+    cursor: pointer;
+    height: 7px;
+    width: 7px;
+    margin: 0 4px;
+    background-color: white;
+    backdrop-filter: blur(2px);
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+  
+  .active,
+  .dots:hover {
+    background-color: rgba(173, 216, 230, 0.8);
+
+  }
+  /* .active,
+  .circle-dot:hover{
+    border: 1px solid white;
+    padding: 7px 12px 7px 12px;
+    border-radius: 50%;
+  } */
+  /* Active state for dots */
+  .circle-dot .active {
+    border: 1px solid white ;
+    padding: 7px 12px 7px 12px;
+  }
+
+  
+  /* transition animation */
+  .animate {
+    -webkit-animation-name: animate;
+    -webkit-animation-duration: 1s;
+    animation-name: animate;
+    animation-duration: 2s;
+  }
+  
+  @keyframes animate {
+    from {
+      transform: scale(1.1) rotateY(10deg);
+    }
+    to {
+      transform: scale(1) rotateY(0deg);
+    }
+  }
+
+  /* ................................ */
+
+/* styling the button */
+
+.button-container {
+  display: flex;
+  gap: 10rem; /* Space between the buttons */
+  justify-content: center;
+  align-items: center;
+  margin-top: 8rem;
+}
+.custom-button {
+  padding: 10px 20px;
+  background-color: #c7c9da;
+  font-weight: 300;
+  color: #181818;
+  text-align: center;
+  cursor: pointer;
+  border: solid 2px #5d6288;
+  font-size: 20px;
+  text-decoration: none;
+  padding: 10px 150px 10px 150px;
+  text-transform: uppercase;
+  font-weight: 300;
+  transition: transform .2s;
+}
+.custom-button:hover {
+  transform: scale(1.1);
+}
+.button-container a{
+  color: #181818;
+  text-decoration: none;
+}
+
+/* .............................. */
+/* styling the services */
+
+/* Create three equal columns that floats next to each other */
+.img-container{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 8rem;
+}
+
+.img-card img{
+  margin: 10px;
+  width: 150px;
+}
+
+.img-card p{
+  text-align: center;
+  margin-top: 10px;
+  color: #181818;
+  font-size: 22px;
+}
+
+/* ................................. */
+/* footer styles */
+
+.footer-container{
+  width: 100%;
+  margin-top: 10rem;
+  background-color: #11142b;
+  /* background-color: #3e8afc; */
+  color: #d4d1d1;
+  /* color: #181818; */
+}
+.linky a{
+  color: #d4d1d1;
+  /* color: #181818; */
+}
+/* hr{
+  margin-top: 10rem;
+  color: solid #11142b;
+} */
