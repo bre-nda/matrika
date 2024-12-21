@@ -1,0 +1,54 @@
+{% extends "base.html" %} 
+{%load static%} 
+{% load bootstrap5 %}
+{% block content %}
+
+
+{% comment %} <div class="image-zoom">
+    <img src="{% static "assets/mattress_1.png" %}" alt="Bedding image">
+</div>
+<div class="descry">
+    <h1>Bedding</h1>
+    Experience the ultimate comfort and luxury with our premium bedding collection. Perfect for a restful and rejuvenating sleep.
+</div>
+<div class="arrow">&#8595;</div> {% endcomment %}
+<div class="image-sent">
+    <div class="row-2">
+        <div class="image-cont">
+            <img src="{% static "assets/mattress_1.png" %}" alt="Quilted Mattress">
+            <div class="desc">
+                <h2><span>Bedding</span></h2>
+                {% comment %} <h2 class="h2">Mattresses</h2> {% endcomment %}
+                <p>Plain mattresses are simple, no-frills mattresses designed to provide a flat, uniform sleeping surface.
+                    These mattresses are often made from basic materials like foam, coir, or cotton and are valued for their affordability, durability, and ease of maintenance.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-1">
+    <div class="text-section">
+      <h2>Image Gallery With Horizontal Scroll</h2>
+      <p>Use the horizontal scrollbar to see the other images.</p>
+    </div>
+  
+  <div class="scroll-container">
+    <div class="image-wrap">
+      <img src="{% static "assets/mattress_1.png" %}" alt="Cinque Terre">
+      <a href="#">Pillows</a>
+    </div>
+    <div class="image-wrap">
+      <img src="{% static "assets/mattress_1.png" %}" alt="Forest">
+      <a href="#">Duvets</a>
+    </div>
+    <div class="image-wrap">
+      <img src="{% static "assets/mattress_1.png" %}" alt="Northern Lights">
+      <a href="#">Bedsheets</a>
+    </div>
+  </div>
+</div>
+  </div>
+  
+{% endblock %}

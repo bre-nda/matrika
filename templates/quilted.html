@@ -1,0 +1,96 @@
+{% extends "base.html" %} 
+{%load static%} 
+{% load bootstrap5 %}
+{% block content %}
+  
+<div class="image-sent">
+    <div class="row-2">
+        <div class="image-cont">
+            <img src="{% static "assets/mattress_1.png" %}" alt="Quilted Mattress">
+            <div class="desc">
+                <h2><span>Quilted</span></h2>
+                <h2 class="h2">Mattresses</h2>
+                <p>One key quality of a quilted mattress is enhanced comfort. The quilting creates a soft, cushioned surface by stitching the 
+                    outer fabric layer to a layer of padding or foam, which provides a plush feel and additional support.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="image-container">
+    <div class="row-1">
+        <div class="image-box">
+            <img src="{% static "assets/matty_5.jpeg" %}" alt="Quilted Mattress 1">
+            <a href="page1.html">6-Inch Mattress</a>
+        </div>
+        <div class="image-box">
+            <img src="{% static "assets/matty_6.jpeg" %}" alt="Quilted Mattress 2">
+            <a href="page2.html">8-Inch Mattress</a>
+        </div>
+    </div>
+    <div class="row-1">
+        <div class="image-box">
+            <img src="{% static "assets/matty_7.jpeg" %}" alt="Quilted Mattress 3">
+            <a href="page3.html">10-Inch Mattress</a>
+        </div>
+        <div class="image-box">
+            <img src="{% static "assets/matty_8.jpeg" %}" alt="Quilted Mattress 4">
+            <a href="page4.html">12-Inch Mattress</a>
+        </div>
+    </div>
+</div>
+
+<div class="containery">
+    <div class="qualities">
+        <div class="quality">
+            <h2>Comfort</h2>
+            <ul>
+                <li>Soft and luxurious texture that adapts perfectly to the contours of your body, ensuring maximum relaxation.</li>
+                <li>Even weight distribution that helps prevent pressure points, providing consistent support throughout the night.</li>
+                {% comment %} <li>Supportive cushioning that enhances your sleep quality by maintaining proper spinal alignment.</li> {% endcomment %}
+            </ul>
+        </div>
+        <div class="quality">
+            <h2>Durability</h2>
+            <ul>
+                <li>High-quality stitching ensures the mattress maintains its structure and integrity over years of use.</li>
+                <li>Resistant to wear and tear, making it an excellent investment for long-term comfort and reliability.</li>
+                {% comment %} <li>Long-lasting materials designed to endure various conditions while maintaining their original features.</li> {% endcomment %}
+            </ul>
+        </div>
+        <div class="quality">
+            <h2>Temperature Regulation</h2>
+            <ul>
+                <li>Breathable fabric that enhances airflow, keeping you cool and comfortable throughout the night.</li>
+                <li>Prevents overheating by efficiently wicking away moisture, ensuring a refreshing sleep environment.</li>
+                {% comment %} <li>Comfortable in all seasons with materials that adapt to both warm and cold conditions for year-round usability.</li> {% endcomment %}
+            </ul>
+        </div>
+        <div class="quality">
+            <h2>Hypoallergenic</h2>
+            <ul>
+                <li>Prevents dust mites and other allergens from settling, making it ideal for individuals with respiratory sensitivities.</li>
+                <li>Designed for sensitive skin, with materials that reduce the risk of irritation or allergic reactions.</li>
+                {% comment %} <li>Minimizes allergens effectively, creating a clean and healthy sleeping environment for you and your family.</li> {% endcomment %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="image-senty">
+    <div class="row-3">
+        <div class="image-conty">
+            <img src="{% static "assets/sleep.jpeg" %}" alt="Quilted Mattress">
+            <div class="descr">
+                <h2><span>Why Cloud Nest Quilted Mattresses Are the Best</span></h2>
+                {% comment %} <h2 class="h2-conty">Mattresses</h2> {% endcomment %}
+                <p>At Cloud Nest, we believe your sleep should be as light and restful as a cloud. That’s why our quilted mattresses are meticulously designed with your comfort and health in mind.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

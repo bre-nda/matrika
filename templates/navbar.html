@@ -10,17 +10,17 @@
         <div id="header-container" class="container navbar-container">
             <div id="navbar" class="">
                 <ul class="nav navbar-nav">
-                    <li><a id="list" href="">Home</a></li>
+                    <li><a id="list" href="{% url 'Home' %}">Home</a></li>
                     <li class="dropdown">
-                        <a id="bout" class="dropbtn" href="">Mattresses <i class="fa fa-caret-down"></i></a>
+                        <a id="bout" class="dropbtn" href="{% url 'mattress_page' %}">Mattresses <i class="fa fa-caret-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="">Plain Mattress</a></li>
-                            <li><a href="">Quilted Mattress</a></li>
+                            <li><a href="{% url 'plain_mattress_page' %}">Plain Mattress</a></li>
+                            <li><a href="{% url 'quilted_mattress_page' %}">Quilted Mattress</a></li>
                         </ul>
                     </li>
                     {% comment %} <li><a id="tact" class="" href="#Bedding">Bedding</a></li> {% endcomment %}
                     <li class="dropdown">
-                        <a id="tact" class="dropbtn" href="#Bedding">Bedding<i class="fa fa-caret-down"></i></a>
+                        <a id="tact" class="dropbtn" href="{% url 'bedding_page' %}">Bedding<i class="fa fa-caret-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="#Sheets">Bed Sheets</a></li>
                             <li><a href="#Pillows">Pillows</a></li>

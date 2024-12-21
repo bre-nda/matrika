@@ -1,0 +1,91 @@
+{% extends "base.html" %} 
+{%load static%} 
+{% load bootstrap5 %}
+{% block content %}
+
+
+<div class="row">
+    <div class="description">
+        <h2>Quilted Mattresses</h2>
+        <p>Quilted mattresses are designed with extra layers</p>
+        <p>of cushioning and quilted fabric for added comfort</p>
+        <p>and luxury. They provide excellent support</p>
+        <p>and a plush sleeping surface.</p>
+
+        <div class="button-container">
+            <a href="{% url 'quilted_mattress_page' %}">View Here</a>
+        </div>
+    </div>
+    <img src="{% static "assets/mattress_2.png" %}" alt="Quilted Mattress">
+</div>
+
+<!-- Plain Mattress Row -->
+<div class="row reverse">
+    <img src="{% static "assets/mattress_3.png" %}" alt="Plain Mattress">
+    <div class="description">
+        <h2>Plain Mattresses</h2>
+        <p>Plain mattresses are straightforward and practical,</p>
+        <p>offering solid support without additional layers.</p>
+        <p>They are a great choice</p>
+        <p>for simplicity and affordability.</p>
+
+        <div class="button-container">
+            <a href="{% url 'plain_mattress_page' %}">View Here</a>
+        </div>
+        
+    </div>
+    
+</div>
+<hr>
+
+<div class="advantages">
+    <div class="advantage">
+        <h3>Comfortable Sleep</h3>
+        <p>Both quilted and plain mattresses provide great support for a good night's sleep, reducing body aches and ensuring comfort throughout the night.</p>
+    </div>
+    <div class="advantage">
+        <h3>Durability</h3>
+        <p>Mattresses are built to last. The high-quality materials used in both quilted and plain mattresses offer long-lasting durability, providing value for money.</p>
+    </div>
+</div>
+<div class="advantages">
+    <div class="advantage">
+        <h3>Improved Sleep Quality</h3>
+        <p>Quality mattresses contribute to better sleep hygiene, leading to better rest and improved mental and physical well-being.</p>
+    </div>
+    <div class="advantage">
+        <h3>Affordable Options</h3>
+        <p>Plain mattresses offer a budget-friendly option without compromising on quality, making them an excellent choice for value-conscious buyers.</p>
+    </div>
+</div>
+
+<hr>
+
+<div class="contyy">
+    <div class="advant">
+        <img src="{% static "assets/pain_1.jpeg" %}" alt="Comfort">
+        <div class="advantage-content">
+            <h2>Reasons why you need a new mattress</h2>
+            <h3>Spinal Alignment</h3>
+            <p>A mattress with proper support helps maintain healthy spinal alignment, reducing the risk of back and neck pain.</p>
+        </div>
+    </div>
+    <div class="advant">
+        <img src="{% static "assets/pain_2.jpeg" %}" alt="Durability">
+        <div class="advantage-content">
+            <h3>Pressure Relief</h3>
+            <p>High-quality mattresses distribute body weight evenly, reducing pressure on joints, especially hips and shoulders.</p>
+        </div>
+    </div>
+    <div class="advant">
+        <img src="{% static "assets/pain_3.jpeg" %}" alt="Support">
+        <div class="advantage-content">
+            <h3>Allergy Reduction</h3>
+            <p> Newer mattresses often come with hypoallergenic materials, reducing exposure to allergens like dust mites.</p>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

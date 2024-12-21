@@ -1,0 +1,92 @@
+{% extends "base.html" %} 
+{%load static%} 
+{% load bootstrap5 %}
+{% block content %}
+
+<div class="image-sent">
+    <div class="row-2">
+        <div class="image-cont">
+            <img src="{% static "assets/mattress_1.png" %}" alt="Quilted Mattress">
+            <div class="desc">
+                <h2><span>Plain</span></h2>
+                <h2 class="h2">Mattresses</h2>
+                <p>Plain mattresses are simple, no-frills mattresses designed to provide a flat, uniform sleeping surface.
+                    These mattresses are often made from basic materials like foam, coir, or cotton and are valued for their affordability, durability, and ease of maintenance.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="image-container">
+    <div class="row-1">
+        <div class="image-box">
+            <img src="{% static "assets/matty_1.jpeg" %}" alt="Quilted Mattress 1">
+            <a href="{% url 'mattress_detail' 'plain' 6 %}">6-Inch Mattress</a>
+        </div>
+        <div class="image-box">
+            <img src="{% static "assets/matty_2.jpeg" %}" alt="Quilted Mattress 2">
+            <a href="{% url 'mattress_detail' 'plain' 8 %}">8-Inch Mattress</a>
+        </div>
+    </div>
+    <div class="row-1">
+        <div class="image-box">
+            <img src="{% static "assets/matty_3.jpeg" %}" alt="Quilted Mattress 3">
+            <a href="{% url 'mattress_detail' 'plain' 10 %}">10-Inch Mattress</a>
+        </div>
+        <div class="image-box">
+            <img src="{% static "assets/matty_4.jpeg" %}" alt="Quilted Mattress 4">
+            <a href="{% url 'mattress_detail' 'plain' 12 %}">12-Inch Mattress</a>
+        </div>
+    </div>
+</div>
+
+<div class="containery">
+    <div class="qualities">
+        <div class="quality">
+            <h2>Minimalist Design and Affordability</h2>
+            <ul>
+                <li>Offers a clean, straightforward aesthetic.</li>
+                <li>Generally more budget-friendly due to the absence of advanced materials or technologies.</li>
+                
+            </ul>
+        </div>
+        <div class="quality">
+            <h2>Durability and Customizability</h2>
+            <ul>
+                <li>If made with basic but sturdy materials, plain mattresses can last a long time with minimal sagging.</li>
+                <li>Can be paired with mattress toppers or pads for additional comfort or softness.</li>
+            </ul>
+        </div>
+        <div class="quality">
+            <h2>Firm Support and Versatility</h2>
+            <ul>
+                <li>Often made with basic foam or coiled springs, offering a firm and consistent sleeping surface.</li>
+                <li>Can suit various sleeping preferences, especially for those who prefer a no-frills approach.</li>
+            </ul>
+        </div>
+        <div class="quality">
+            <h2>Lightweight, Easy to Handle and Breathability</h2>
+            <ul>
+                <li>Easier to move, flip, or rotate compared to thicker or layered mattresses.</li>
+                <li>Typically allows better airflow, especially if it uses traditional materials like coiled springs.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="contys">
+    <div class="advanty">
+        <img src="{% static "assets/mattress_2.png" %}" alt="Comfort">
+        <div class="advant-content">
+            <h3>Why you should choose our Plain Mattress</h3>
+            <p>Plain mattresses are often more budget-friendly, making them ideal for individuals on a tight budget, students, or temporary living situations.</p>
+            <p>Many plain mattresses focus on sturdy construction rather than frills, often lasting longer without sagging when made with quality materials.</p>
+            <p></p>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

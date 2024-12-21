@@ -4,5 +4,84 @@
 {% block content %}
 
 
+<div class="carousel-container">
+    {% for mattress in mattresses %}
+    <div class="mySlides animate">
+        <img src="{{ mattress.image.url }}" alt="{{ mattress.type }}">
+        <div class="text">{{ mattress.get_type_display }}</div>
+    </div>
+    
+    <div class="mySlides animate">
+        <img src="{% static "assets/mattress_2.png" %}" alt="slide" />
+        <div class="text">Plain Mattress</div>
+    </div>
+    
+    <div class="mySlides animate">
+        <img src="{% static "assets/mattress_3.png" %}" alt="slide" />
+        <div class="text">Quilted Mattress</div>
+    </div>
+    
+    <div class="mySlides animate">
+        <img src="{% static "assets/mattress_1.png" %}" alt="slide" class="center-block"/>
+        <div class="text">Quilted Mattress</div>
+    </div>
+    
+    <div class="mySlides animate">
+        <img src="{% static "assets/mattress_2.png" %}" alt="slide" class="center-block"/>
+        <div class="text">Bedding</div>
+    </div>
+    {% endfor %}
+    
+    <!-- Next and previous buttons -->
+    <a class="prev" onclick="prevSlide()"><i class="fa fa-arrow-right"></i></a>
+    <a class="next" onclick="nextSlide()"><i class="fa fa-arrow-left"></i></a>
+    
+    <!-- The dots/circles -->
+    <div class="dots-container">
+        <div class="circle-dot">
+            <span class="dots" onclick="currentSlide(1)"></span>
+        </div>
+        <div class="circle-dot">
+            <span class="dots" onclick="currentSlide(2)"></span>
+        </div>
+        <div class="circle-dot">
+            <span class="dots" onclick="currentSlide(3)"></span>
+        </div>
+        <div class="circle-dot">
+            <span class="dots" onclick="currentSlide(4)"></span>
+        </div>
+        <div class="circle-dot">
+            <span class="dots" onclick="currentSlide(5)"></span>
+        </div>
+    </div>
+</div>
+
+    <div class="button-container">
+        <a href="{% url 'mattress_page' %}" class="custom-button" id="button1">
+            Mattresses
+        </a>
+        <a href="{% url 'bedding_page' %}" class="custom-button" id="button2">
+            Bedding
+        </a>
+    </div>
+    
+
+    <div class="services">
+        <div class="img-container">
+            <div class="img-card">
+              <img src="{% static "assets/delivery-truck.png" %}">
+              <p>Delivery accross the country</p>
+            </div>
+            <div class="img-card">
+              <img src="{% static "assets/high-quality.png" %}">
+              <p>High Quality Items</p>
+            </div>
+            <div class="img-card">
+              <img src="{% static "assets/cash-on-delivery.png" %}">
+               <p>Payment on Deliver</p>
+            </div>
+          </div>
+    </div>
+
 
 {% endblock %}

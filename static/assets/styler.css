@@ -1,0 +1,158 @@
+html,
+body {
+    overflow-x: hidden;
+    box-sizing: border-box;
+    
+    /* margin: 0;
+    padding: 20px; */
+}
+body {
+    padding-top: 120px;
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+.row {
+    /* padding-top: 30px; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* gap: 40px; */
+    margin-bottom: 40px;
+
+
+}
+.row img {
+    /* width: 600px; 
+    height: 500px; */
+    max-width: 600px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+
+}
+.row.reverse {
+    margin-bottom: 6rem;
+}
+/* .description {
+    max-width: 30%;
+    text-align: justify;
+} */
+.description {
+    color: #11142b;
+    text-align: center;
+    max-width: 38%; /* Ensure the description container is 30% width */
+    /* margin: 0 auto; */
+}
+.description p {
+    margin: 5px auto; /* Add margin for spacing between paragraphs */
+    text-align: center;
+    color: #11142b;
+}
+.description p:nth-child(1) {
+    max-width: 100%; /* Full width for the first line */
+}
+.description p:nth-child(2) {
+    max-width: 90%; /* Slightly reduced width for the second line */
+}
+.description p:nth-child(3) {
+    max-width: 80%; /* Even smaller width for the third line */
+}
+.description p:nth-child(4) {
+    max-width: 70%; /* Narrowest width for the last line */
+}
+
+/* ..................................... */
+/* styling the advantages */
+.advantages {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+.advantage {
+    width: 48%; /* Each column takes up about half of the space */
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+.advantage h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #11142b;
+}
+.advantage p {
+    font-size: 1em;
+    color: #11142b;
+    font-weight: 320;
+}
+
+/* ................................................. */
+/* styling the buttons */
+
+.description .button-container {
+    margin-top: 18px;
+}
+.description .button-container a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #11142b;
+    cursor: pointer;
+    border: solid 2px #756352;
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+}
+.description .button-container a:hover {
+    background-color: #756352;
+    color: #d4d1d1;
+}
+
+
+/* ....................... */
+/* styling the images and advantages */
+.contyy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-top: 5rem;
+}
+.advant {
+    display: flex;
+    background-color: #fff;
+    width: 90%;
+    margin: 10px;
+    text-align: left;
+    overflow: hidden;
+}
+.advant img {
+    width: 500px;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 3rem;
+}
+.advantage-content {
+    padding: 20px;
+    margin-top: 4rem;
+    width: 50%;
+}
+.advant h3 {
+    font-size: 1.5em;
+    margin: 0 0 10px 0;
+    color: #333;
+}
+.advant p {
+    font-size: 1em;
+    color: #555;
+}
+.advant h2{
+    margin-top: -4rem;
+    color: #101a64;
+    margin-bottom: 4rem;
+}
