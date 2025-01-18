@@ -1,0 +1,72 @@
+{% extends "base.html" %} 
+{%load static%} 
+{% load bootstrap5 %}
+{% block content %}
+
+{% comment %} <h1>Your Cart</h1>
+<ul>
+    {% if user.is_authenticated %}
+        {% for item in cart_items %}
+            <li>
+                Product: {{ item.product_type|capfirst }} - ID: {{ item.product_id }}<br>
+                Quantity: {{ item.quantity }}<br>
+                Total Price: ${{ item.total_price }}
+            </li>
+        {% endfor %}
+    {% else %}
+        {% for item in cart_items %}
+            <li>
+                Product: {{ item.product_type|capfirst }} - ID: {{ item.product_id }}<br>
+                Quantity: {{ item.quantity }}<br>
+                Total Price: ${{ item.total_price }}
+            </li>
+        {% empty %}
+            <p>Your cart is empty.</p>
+        {% endfor %}
+    {% endif %}
+</ul>
+<a href="{% url 'Home' %}">Continue Shopping</a> {% endcomment %}
+
+<h1>Your Cart</h1>
+<ul>
+    {% if user.is_authenticated %}
+        {% for item in cart_items %}
+            <li>
+                Product: {{ item.product_type|capfirst }} - ID: {{ item.product_id }}<br>
+                Quantity: {{ item.quantity }}<br>
+                Total Price: ${{ item.total_price }}<br>
+                {% comment %} <form method="post" action="{% url 'delete_cart_item' item.product_id item.product_type %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form> {% endcomment %}
+                <form method="post" action="{% url 'delete_cart_item' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    {% else %}
+        {% for item in cart_items %}
+            <li>
+                Product: {{ item.product_type|capfirst }} - ID: {{ item.product_id }}<br>
+                Quantity: {{ item.quantity }}<br>
+                Total Price: ${{ item.total_price }}<br>
+                {% comment %} <form method="post" action="{% url 'delete_cart_item' item.product_id item.product_type %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form> {% endcomment %}
+                <form method="post" action="{% url 'delete_cart_item' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% empty %}
+            <p>Your cart is empty.</p>
+        {% endfor %}
+    {% endif %}
+</ul>
+<a href="{% url 'Home' %}">Continue Shopping</a>
+
+
+
+{% endblock %}

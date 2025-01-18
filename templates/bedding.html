@@ -37,18 +37,24 @@
   <div class="scroll-container">
     <div class="image-wrap">
       <img src="{% static "assets/mattress_1.png" %}" alt="Cinque Terre">
-      <a href="#">Pillows</a>
+      {% for pillow in pillows %}
+            <a href="{% url 'pillow_detail' pillow.id %}">Pillows</a>
+      {% endfor %}
     </div>
     <div class="image-wrap">
       <img src="{% static "assets/mattress_1.png" %}" alt="Forest">
-      <a href="#">Duvets</a>
+      {% for duvet in duvets %}
+        <a href="{% url 'duvet_detail' duvet.id %}">Duvet</a>
+      {% endfor %}
     </div>
     <div class="image-wrap">
       <img src="{% static "assets/mattress_1.png" %}" alt="Northern Lights">
-      <a href="#">Bedsheets</a>
+      {% for bedsheet in bedsheets %}
+            <a href="{% url 'bedsheet_detail' bedsheet.id %}">Bedsheets</a>
+      {% endfor %}
     </div>
   </div>
 </div>
-  </div>
+
   
 {% endblock %}

@@ -22,21 +22,21 @@
     <div class="row-1">
         <div class="image-box">
             <img src="{% static "assets/matty_1.jpeg" %}" alt="Quilted Mattress 1">
-            <a href="{% url 'mattress_detail' 'plain' 6 %}">6-Inch Mattress</a>
+            <a href="{% url 'mattress_detail' type='plain' thickness=6 %}">6-Inch Mattress</a>
         </div>
         <div class="image-box">
             <img src="{% static "assets/matty_2.jpeg" %}" alt="Quilted Mattress 2">
-            <a href="{% url 'mattress_detail' 'plain' 8 %}">8-Inch Mattress</a>
+            <a href="{% url 'mattress_detail' type='plain' thickness=8 %}">8-Inch Mattress</a>
         </div>
     </div>
     <div class="row-1">
         <div class="image-box">
             <img src="{% static "assets/matty_3.jpeg" %}" alt="Quilted Mattress 3">
-            <a href="{% url 'mattress_detail' 'plain' 10 %}">10-Inch Mattress</a>
+            <a href="{% url 'mattress_detail' type='plain' thickness=10 %}">10-Inch Mattress</a>
         </div>
         <div class="image-box">
             <img src="{% static "assets/matty_4.jpeg" %}" alt="Quilted Mattress 4">
-            <a href="{% url 'mattress_detail' 'plain' 12 %}">12-Inch Mattress</a>
+            <a href="{% url 'mattress_detail' type='plain' thickness=12 %}">12-Inch Mattress</a>
         </div>
     </div>
 </div>

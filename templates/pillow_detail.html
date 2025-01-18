@@ -1,0 +1,68 @@
+{% extends "base.html" %} 
+{%load static%} 
+{% load bootstrap5 %}
+{% block content %}
+
+
+<h1>Pillow - {{ pillow.material }}</h1>
+<img src="{{ pillow.image.url }}" alt="Image of {{ pillow.material }} pillow">
+<p>Price: ${{ pillow.price }} (Per Pair)</p>
+
+{% comment %} <form method="post">
+    {% csrf_token %}
+    <label for="quantity">Select Quantity:</label>
+    <input type="number" name="quantity" id="quantity" min="1" value="1" required>
+    <button type="submit">View Details</button>
+</form>
+
+{% if selected_quantity %}
+    <h2>Selected Details</h2>
+    <ul>
+        <li>Material: {{ pillow.material }}</li>
+        <li>Sold as Pair: {{ pillow.pair|yesno:"Yes,No" }}</li>
+        <li>Price per Pair: ${{ pillow.price }}</li>
+        <li>Quantity: {{ selected_quantity }}</li>
+        <li>Total Price: ${{ total_price }}</li>
+    </ul>
+{% else %}
+    <p>No details to show. Please select a quantity and click "View Details".</p>
+{% endif %}
+ {% endcomment %}
+
+ <!-- Display success message -->
+{% if messages %}
+{% for message in messages %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endfor %}
+{% endif %}
+
+<form method="get" action=".">
+    <label for="quantity">Select Quantity:</label>
+    <input type="number" name="quantity" id="quantity" min="1" value="1" required>
+    <button type="submit">View Details</button>
+</form>
+
+{% if selected_quantity %}
+    <h2>Selected Details</h2>
+    <ul>
+        <li>Material: {{ pillow.material }}</li>
+        <li>Sold as Pair: {{ pillow.pair|yesno:"Yes,No" }}</li>
+        <li>Price per Pair: ${{ pillow.price }}</li>
+        <li>Quantity: {{ selected_quantity }}</li>
+        <li>Total Price: ${{ total_price }}</li>
+    </ul>
+
+    <form method="post" action="{% url 'add_to_cart' 'pillow' pillow.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="quantity" value="{{ selected_quantity }}">
+        <input type="hidden" name="price" value="{{ pillow.price }}">
+        <button type="submit">Add to Cart</button>
+    </form>
+{% else %}
+    <p>No details to show. Please select a quantity and click "View Details".</p>
+{% endif %}
+
+
+
+<a href="{% url 'bedding_page' %}">Back to Bedding</a>
+{% endblock %}

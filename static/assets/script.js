@@ -48,7 +48,8 @@ $(document).ready(function(){
         "bout",
         "tact",
         "mat",
-        "search"
+        "search",
+        "cart"
     ]);
 
     
@@ -154,5 +155,4 @@ setInterval(() => {
 
 
 // ......................................................
-// bedding slider
-
+// pillow_detail

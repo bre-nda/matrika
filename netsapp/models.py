@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -30,7 +31,7 @@ class Mattress(models.Model):
         return f"{self.get_type_display()} - {self.size} - {self.thickness} inch"
     
 
-# Pillow Modela
+# Pillow Model
 class Pillow(models.Model):
     material = models.CharField(max_length=50)  # e.g., 'Pure Fibre Filled'
     pair = models.BooleanField(default=True)  # Pillows are sold as pairs
@@ -81,3 +82,15 @@ class Duvet(models.Model):
 
     def __str__(self):
         return f"{self.size} Duvet - {self.color}"
+    
+    
+# Cart Model
+class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    product_type = models.CharField(max_length=50)  # e.g., "mattress", "pillow"
+    product_id = models.PositiveIntegerField()  # ID of the product in its respective table
+    quantity = models.PositiveIntegerField(default=1)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.product_type.capitalize()} - {self.quantity}"

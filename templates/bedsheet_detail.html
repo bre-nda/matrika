@@ -1,0 +1,100 @@
+{% extends "base.html" %} 
+{%load static%} 
+{% load bootstrap5 %}
+{% block content %}
+
+<h1>Bedsheet - {{ bedsheet.size }}</h1>
+<img src="{{ bedsheet.image.url }}" alt="Image of {{ bedsheet.size }} bedsheet">
+<p>Price: ${{ bedsheet.price }}</p>
+
+{% comment %} <form method="get" action="">
+    <label for="size">Choose a size:</label>
+    <select name="size" id="size" required>
+        <option value="">-- Select Size --</option>
+        <option value="4x6" {% if size == "4x6" %}selected{% endif %}>4 x 6</option>
+        <option value="5x6" {% if size == "5x6" %}selected{% endif %}>5 x 6</option>
+        <option value="6x6" {% if size == "6x6" %}selected{% endif %}>6 x 6</option>
+    </select>
+
+    <label for="color">Choose a color:</label>
+    <select name="color" id="color" required>
+        <option value="">-- Select Color --</option>
+        <option value="white" {% if color == "white" %}selected{% endif %}>White</option>
+        <option value="light-blue" {% if color == "light-blue" %}selected{% endif %}>Light Blue</option>
+        <option value="brown" {% if color == "brown" %}selected{% endif %}>Brown</option>
+    </select>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" name="quantity" id="quantity" min="1" value="{{ quantity }}" required>
+
+    <button type="submit">View Details</button>
+</form>
+
+<h2>Selected Details:</h2>
+{% if bedsheet and size and color %}
+<ul>
+    <li>Material: {{ bedsheet.material }}</li>
+    <li>Size: {{ size }}</li>
+    <li>Color: {{ color }}</li>
+    <li>Price per unit: ${{ bedsheet.price }}</li>
+    <li>Total Price: ${{ total_price }}</li>
+</ul>
+{% else %}
+<p>Item not available in the database or selection incomplete.</p>
+{% endif %} {% endcomment %}
+
+<!-- Display success message -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<form method="get" action=".">
+    <label for="size">Choose a size:</label>
+    <select name="size" id="size" required>
+        <option value="">-- Select Size --</option>
+        <option value="4x6" {% if size == "4x6" %}selected{% endif %}>4 x 6</option>
+        <option value="5x6" {% if size == "5x6" %}selected{% endif %}>5 x 6</option>
+        <option value="6x6" {% if size == "6x6" %}selected{% endif %}>6 x 6</option>
+    </select>
+
+    <label for="color">Choose a color:</label>
+    <select name="color" id="color" required>
+        <option value="">-- Select Color --</option>
+        <option value="white" {% if color == "white" %}selected{% endif %}>White</option>
+        <option value="light-blue" {% if color == "light-blue" %}selected{% endif %}>Light Blue</option>
+        <option value="brown" {% if color == "brown" %}selected{% endif %}>Brown</option>
+    </select>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" name="quantity" id="quantity" min="1" value="{{ quantity }}" required>
+
+    <button type="submit">View Details</button>
+</form>
+
+{% if bedsheet and size and color %}
+    <h2>Selected Details</h2>
+    <ul>
+        <li>Material: {{ bedsheet.material }}</li>
+        <li>Size: {{ size }}</li>
+        <li>Color: {{ color }}</li>
+        <li>Price per unit: ${{ bedsheet.price }}</li>
+        <li>Total Price: ${{ total_price }}</li>
+    </ul>
+
+    <form method="post" action="{% url 'add_to_cart' 'bedsheet' bedsheet.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="quantity" value="{{ quantity }}">
+        <input type="hidden" name="size" value="{{ size }}">
+        <input type="hidden" name="color" value="{{ color }}">
+        <input type="hidden" name="price" value="{{ bedsheet.price }}">
+        <button type="submit">Add to Cart</button>
+    </form>
+{% else %}
+    <p>Item not available in the database or selection incomplete.</p>
+{% endif %}
+
+<a href="{% url 'bedding_page' %}">Back to Bedding</a>
+
+{% endblock %}

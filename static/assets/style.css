@@ -140,7 +140,7 @@ body {
   color: #181818;
 }
 .usery{
-  margin-left: 110rem;
+  margin-left: 105rem;
   margin-top: 12px;
   /* margin-top: -0.8rem; */
   display: flex;
@@ -153,6 +153,14 @@ body {
 #user.fixed-theme{
     color: #d4d1d1;
     margin-bottom: 18px;
+}
+#cart{
+  color: #181818;
+  margin-left: 5rem;
+}
+#cart.fixed-theme{
+  color: #d4d1d1;
+  margin-top: -1.8rem;
 }
 #search {
   color: #181818;

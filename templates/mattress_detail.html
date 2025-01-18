@@ -3,37 +3,83 @@
 {% load bootstrap5 %}
 {% block content %}
 
-<h1>{{ type|capfirst }} Mattress - {{ thickness }} Inch</h1>
+{% comment %} <h1>{{ type|capfirst }} Mattress - {{ thickness }} Inch</h1>
 
-<form method="post" action="">
-    {% csrf_token %}
+
+<form method="get" action="">
     <label for="size">Choose a size:</label>
     <select name="size" id="size" required>
+        <option value="" disabled selected>Select Size</option>
+        <option value="3.5x6" {% if selected_size == "3.5x6" %}selected{% endif %}>3.5 x 6 (42 x 74 inches)</option>
+        <option value="4x6" {% if selected_size == "4x6" %}selected{% endif %}>4 x 6 (48 x 74 inches)</option>
+        <option value="5x6" {% if selected_size == "5x6" %}selected{% endif %}>5 x 6 (60 x 74 inches)</option>
+        <option value="6x6" {% if selected_size == "6x6" %}selected{% endif %}>6 x 6 (72 x 74 inches)</option>
+    </select>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" name="quantity" id="quantity" min="1" value="{{ quantity }}" required>
+
+    <button type="submit">View Details</button>
+</form>
+
+<h2>Selected Details:</h2>
+{% if selected_mattress %}
+    <ul>
+        <li>Type: {{ selected_mattress.get_type_display }}</li>
+        <li>Size: {{ selected_mattress.get_size_display }}</li>
+        <li>Thickness: {{ selected_mattress.thickness }} inches</li>
+        <li>Price per unit: ${{ selected_mattress.price }}</li>
+        <li>Total Price: ${{ total_price }}</li>
+    </ul>
+{% else %}
+    <p>No mattress selected or item not available for the selected size.</p>
+{% endif %}
+
+
+<a href="{% url 'Home' %}">Back to Home</a> {% endcomment %}
+
+<!-- Display success message -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<form method="get" action=".">
+    <label for="size">Choose a size:</label>
+    <select name="size" id="size" required>
+        <option value="">-- Select Size --</option>
         <option value="3.5x6">3.5 x 6 (42 x 74 inches)</option>
         <option value="4x6">4 x 6 (48 x 74 inches)</option>
         <option value="5x6">5 x 6 (60 x 74 inches)</option>
         <option value="6x6">6 x 6 (72 x 74 inches)</option>
     </select>
-
-    <label for="quantity">Quantity:</label>
-    <input type="number" name="quantity" id="quantity" min="1" value="1" required>
-
-    <button type="submit">Add to Cart</button>
+    <button type="submit">View Details</button>
 </form>
 
-{% if mattresses %}
-    <h2>Details:</h2>
-    <ul>
-        {% for mattress in mattresses %}
-            <li>Type: {{ mattress.get_type_display }}</li>
-            <li>Size Options: {{ mattress.size }}</li>
-            <li>Price: ${{ mattress.price }}</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No details available for this mattress.</p>
-{% endif %}
+{% if selected_size %}
+    {% if selected_mattress %}
+        <h2>Selected Details</h2>
+        <ul>
+            <li>Type: {{ selected_mattress.get_type_display }}</li>
+            <li>Size: {{ selected_mattress.get_size_display }}</li>
+            <li>Thickness: {{ selected_mattress.thickness }} inch</li>
+            <li>Price: ${{ selected_mattress.price }}</li>
+        </ul>
 
+        <form method="post" action="{% url 'add_to_cart' 'mattress' selected_mattress.id %}">
+            {% csrf_token %}
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" id="quantity" min="1" value="1" required>
+            <input type="hidden" name="price" value="{{ selected_mattress.price }}">
+            <button type="submit">Add to Cart</button>
+        </form>
+    {% else %}
+        <p>No mattress available in this size.</p>
+    {% endif %}
+{% else %}
+    <p>Please select a size to view details.</p>
+{% endif %}
 
 <a href="{% url 'Home' %}">Back to Home</a>
 
