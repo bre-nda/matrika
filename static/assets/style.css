@@ -140,8 +140,9 @@ body {
   color: #181818;
 }
 .usery{
-  margin-left: 105rem;
+  margin-left: 100rem;
   margin-top: 12px;
+  /* gap: 10px; */
   /* margin-top: -0.8rem; */
   display: flex;
   align-items: center;
@@ -220,10 +221,57 @@ body {
   display: block;
 }
 
+/* styling the user */
+#user-details {
+  position: relative;
+}
+
+#user-details summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+#user-details summary::-webkit-details-marker {
+  display: none;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  min-width: 150px;
+  z-index: 1000;
+}
+
+#user-details[open] .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  text-decoration: none;
+  color: #333;
+  padding: 5px 10px;
+  transition: background 0.3s;
+}
+
+.dropdown-content a:hover {
+  background: #f0f0f0;
+  color: #000;
+}
+
 
 
 /* end of navbar */
 /* .................................. */
+
+
+
 
 /* continuous image styles */
 /* .bodyy {
@@ -397,7 +445,6 @@ body {
       transform: scale(1) rotateY(0deg);
     }
   }
-
   /* ................................ */
 
 /* styling the button */

@@ -94,3 +94,64 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.product_type.capitalize()} - {self.quantity}"
+    
+    
+#profile model
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    shipping_address = models.OneToOneField('ShippingAddress', on_delete=models.SET_NULL, null=True)
+    billing_address = models.OneToOneField('BillingAddress', on_delete=models.SET_NULL, null=True)
+
+class ShippingAddress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    company_name = models.CharField(max_length=100, blank=True, null=True)
+    country = models.CharField(max_length=100)
+    street_address = models.CharField(max_length=255)
+    flat_suite = models.CharField(max_length=255, blank=True, null=True)
+    town_city = models.CharField(max_length=100)
+    state_county = models.CharField(max_length=100)
+    postcode = models.CharField(max_length=20)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    email = models.EmailField(max_length=100)
+
+class BillingAddress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    company_name = models.CharField(max_length=100, blank=True, null=True)
+    country = models.CharField(max_length=100)
+    street_address = models.CharField(max_length=255)
+    flat_suite = models.CharField(max_length=255, blank=True, null=True)
+    town_city = models.CharField(max_length=100)
+    state_county = models.CharField(max_length=100)
+    postcode = models.CharField(max_length=20)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    email = models.EmailField(max_length=100)
+  
+#order model    
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=100, choices=[('pending', 'Pending'), ('completed', 'Completed')], default='pending')
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    shipping_address = models.TextField(null=True, blank=True)  # Allow null and blank
+    billing_address = models.TextField(null=True, blank=True)  # Allow null and blank
+
+
+    def __str__(self):
+        return f"Order {self.id} - {self.status}"
+
+    def get_order_items(self):
+        return self.order_items.all()
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name='order_items', on_delete=models.CASCADE)
+    product_name = models.CharField(max_length=255)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.product_name} x{self.quantity}"

@@ -1,4 +1,9 @@
 from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from .models import Order
+from .forms import UserProfileForm,ShippingAddressForm, BillingAddressForm
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from .models import Mattress, Duvet, Bedsheet, Pillow, CartItem
 from django.shortcuts import redirect
@@ -79,21 +84,6 @@ def bedding_page(request):
     })
     
 
-
-# def pillow_detail(request, pk):
-#     pillow = get_object_or_404(Pillow, id=pk)
-#     selected_quantity = None
-#     total_price = None
-
-#     if request.method == "POST":
-#         selected_quantity = int(request.POST.get('quantity', 1))  # Default quantity to 1 if not specified
-#         total_price = pillow.price * selected_quantity
-
-#     return render(request, 'pillow_detail.html', {
-#         'pillow': pillow,
-#         'selected_quantity': selected_quantity,
-#         'total_price': total_price,
-#     })
 def pillow_detail(request, pk):
     pillow = get_object_or_404(Pillow, id=pk)
     selected_quantity = None
@@ -215,17 +205,6 @@ def cart_page(request):
     return render(request, 'cart.html', {'cart_items': cart_items})
 
 # delete cart
-# def delete_cart_item(request, product_id, product_type):
-#     if request.method == "POST":
-#         cart = request.session.get('cart', [])
-#         updated_cart = [
-#             item for item in cart 
-#             if not (item['product_id'] == product_id and item['product_type'] == product_type)
-#         ]
-#         request.session['cart'] = updated_cart
-#         messages.success(request, "Item successfully removed from cart.")
-#     return redirect('cart_page')
-
 def delete_cart_item(request, cart_item_id):
     if request.method == "POST":
         if request.user.is_authenticated:
@@ -245,31 +224,94 @@ def delete_cart_item(request, cart_item_id):
 
     return redirect('cart_page')
 
-# def delete_cart_item(request, product_id, product_type):
-#     if request.method == "POST":
-#         if request.user.is_authenticated:
-#             # Find all matching cart items for the user, product ID, and product type
-#             cart_items = CartItem.objects.filter(
-#                 user=request.user,
-#                 product_id=product_id,
-#                 product_type=product_type
-#             )
-#             if cart_items.exists():
-#                 cart_items.delete()  # Delete all matching items
-#                 messages.success(request, "Item(s) successfully removed from your cart.")
-#             else:
-#                 messages.error(request, "Item not found in your cart.")
-#         else:
-#             # Handle session-based cart for unauthenticated users
-#             cart = request.session.get('cart', [])
-#             updated_cart = [
-#                 item for item in cart 
-#                 if not (item['product_id'] == product_id and item['product_type'] == product_type)
-#             ]
-#             if len(cart) == len(updated_cart):
-#                 messages.error(request, "Item not found in your cart.")
-#             else:
-#                 messages.success(request, "Item successfully removed from your cart.")
-#             request.session['cart'] = updated_cart  # Update session cart
+# User Registration
+def register(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
 
-#     return redirect('cart_page')
+        if password1 != password2:
+            messages.error(request, "Passwords do not match.")
+            return redirect('register')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username is already taken.")
+            return redirect('register')
+
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Email is already registered.")
+            return redirect('register')
+
+        user = User.objects.create_user(username=username, email=email, password=password1)
+        user.save()
+        messages.success(request, "Registration successful. Please log in.")
+        return redirect('login')
+
+    return render(request, 'register.html')
+
+# User Login
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Login successful.")
+            return redirect('Home')  # Replace 'Home' with your desired home page
+        else:
+            messages.error(request, "Invalid username or password.")
+            return redirect('login')
+
+    return render(request, 'login.html')
+
+# User Logout
+def logout_user(request):
+    logout(request)
+    messages.success(request, "You have been logged out.")
+    return redirect('Home')
+
+#profile views
+@login_required
+def profile_view(request):
+    # Fetch the user profile and addresses
+    user_profile = request.user.profile
+
+    # Handle updating user profile
+    if request.method == 'POST':
+        profile_form = UserProfileForm(request.POST, instance=user_profile)
+        shipping_form = ShippingAddressForm(request.POST, instance=user_profile.shipping_address)
+        billing_form = BillingAddressForm(request.POST, instance=user_profile.billing_address)
+        
+        if profile_form.is_valid() and shipping_form.is_valid() and billing_form.is_valid():
+            profile_form.save()
+            shipping_form.save()
+            billing_form.save()
+            # Redirect to the same page or a success page
+            return redirect('profile')
+    else:
+        profile_form = UserProfileForm(instance=user_profile)
+        shipping_form = ShippingAddressForm(instance=user_profile.shipping_address)
+        billing_form = BillingAddressForm(instance=user_profile.billing_address)
+
+    # Fetch the user's orders
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+
+    return render(request, 'profile.html', {
+        'profile_form': profile_form,
+        'shipping_form': shipping_form,
+        'billing_form': billing_form,
+        'orders': orders
+    })
+    
+@login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(request, 'order_detail.html', {
+        'order': order
+    })
+
+

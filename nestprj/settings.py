@@ -107,6 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -127,6 +130,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = '/login/'  # Redirect unauthenticated users to the login page
+LOGIN_REDIRECT_URL = '/'  # Redirect authenticated users after login
+LOGOUT_REDIRECT_URL = '/login/'  # Redirect users after logout
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
