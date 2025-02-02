@@ -4,7 +4,7 @@
 {% block content %}
 
 
-<h1>Login</h1>
+{% comment %} <h1>Login</h1>
 <form method="post">
     {% csrf_token %}
     <label for="username">Username:</label>
@@ -15,10 +15,39 @@
     <br>
     <button type="submit">Login</button>
 </form>
+
+<p><a href="{% url 'reset_password' %}">Forgot your password?</a></p>
+{% for message in messages %}
+    <p>{{ message }}</p>
+{% endfor %} {% endcomment %}
+
+<h1>Login</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" required>
+    <br>
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required>
+    <input type="checkbox" id="togglePassword"> Show Password
+    <br>
+
+    <button type="submit">Login</button>
+</form>
+
+<p><a href="{% url 'reset_password' %}">Forgot your password?</a></p>
+
 {% for message in messages %}
     <p>{{ message }}</p>
 {% endfor %}
 
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        let passwordInput = document.getElementById('password');
+        passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    });
+</script>
 
 
 {% endblock %}

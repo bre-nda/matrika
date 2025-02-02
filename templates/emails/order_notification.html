@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Order Notification</title>
+</head>
+<body>
+    <h2>New Order Received</h2>
+    <p>A new order has been placed by {{ user.username }}.</p>
+    <p><strong>Order ID:</strong> {{ order.id }}</p>
+
+    <h3>Order Details:</h3>
+    <ul>
+        {% for item in order_items %}
+        <li>{{ item.product_name }} - {{ item.quantity }} x {{ item.price }} = {{ item.total_price }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+
+    <h3>Shipping Address:</h3>
+    <p>{{ order.shipping_address }}</p>
+
+    <h3>Billing Address:</h3>
+    <p>{{ order.billing_address }}</p>
+
+    <p>Login to the admin panel to view more details.</p>
+</body>
+</html>

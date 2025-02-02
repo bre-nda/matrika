@@ -1,0 +1,79 @@
+{% extends "base.html" %} 
+{%load static%} 
+{% load bootstrap5 %}
+{% block content %}
+
+{% comment %} <h1>Checkout</h1>
+
+{% if cart_items %}
+    <ul>
+        {% for item in cart_items %}
+            <li>
+                {{ item.product_type|capfirst }} - ID: {{ item.product_id }}<br>
+                Quantity: {{ item.quantity }}<br>
+                Total Price: ${{ item.total_price }}
+            </li>
+        {% endfor %}
+    </ul>
+    <h2>Shipping Address</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ shipping_form.as_p }}
+
+        <h2>Billing Address</h2>
+        {{ billing_form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Place Order</button>
+    </form>
+{% else %}
+    <p>Your cart is empty. <a href="{% url 'Home' %}">Continue Shopping</a></p>
+{% endif %}
+
+<a href="{% url 'cart_page' %}" class="btn btn-secondary">Back to Cart</a> {% endcomment %}
+
+<h1>Checkout</h1>
+
+{% if cart_items %}
+    <ul>
+        {% for item in cart_items %}
+            <li>
+                {{ item.product_type|capfirst }} - ID: {{ item.product_id }}<br>
+                Quantity: {{ item.quantity }}<br>
+                Total Price: ${{ item.total_price }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Shipping Address Form -->
+    <h2>Shipping Address</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ shipping_form.as_p }}
+        <button type="submit" name="update_shipping" class="btn btn-info">Update Shipping</button>
+    </form>
+    <hr>
+
+    <!-- Billing Address Form -->
+    <h2>Billing Address</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ billing_form.as_p }}
+        <button type="submit" name="update_billing" class="btn btn-info">Update Billing</button>
+    </form>
+    <hr>
+
+    <!-- Place Order Button -->
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="place_order" class="btn btn-primary">Place Order</button>
+    </form>
+
+{% else %}
+    <p>Your cart is empty. <a href="{% url 'Home' %}">Continue Shopping</a></p>
+{% endif %}
+
+<a href="{% url 'cart_page' %}" class="btn btn-secondary">Back to Cart</a>
+
+
+
+{% endblock %}

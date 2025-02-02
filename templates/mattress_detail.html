@@ -67,6 +67,8 @@
             <li>Price: ${{ selected_mattress.price }}</li>
         </ul>
 
+        <a href="{% url "checkout" %}">Checkout</a>
+
         <form method="post" action="{% url 'add_to_cart' 'mattress' selected_mattress.id %}">
             {% csrf_token %}
             <label for="quantity">Quantity:</label>

@@ -292,8 +292,7 @@ body {
     justify-content: center;
     align-items: center;
     margin-top: -20px;
-
-    /* z-index: 3; */
+    z-index: 0;
   }
 
   
@@ -325,7 +324,6 @@ body {
 
   .prev,
   .next {
-    display: none;
     cursor: pointer;
     position: absolute;
     top: 40%;
@@ -362,7 +360,7 @@ body {
     font-size: 20px;
     padding: 8px 12px;
     position: absolute;
-    bottom: 150px;
+    bottom: 180px;
     left: 50%;
     transform: translate(-50%);
     text-align: center;
@@ -380,54 +378,30 @@ body {
     top: 20px;
     left: 20px;
   }
-  /* .dots-container {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translate(-50%);
-  } */
   .dots-container {
     position: absolute;
-    top: 30%; /* Align vertically at the center */
-    left: 10px; /* Position the dots container on the left side */
-    transform: translateY(-50%); /* Adjust for vertical centering */
+    bottom: 130px;
+    left: 50%;
+    transform: translate(-50%);
     display: flex;
-    flex-direction: column; /* Stack dots vertically */
-    gap: 12px; /* Add spacing between dots */
-}
-
-/* Add border animation for active dots */
-
+  }
+  
   /* The dots/bullets/indicators */
   .dots {
     cursor: pointer;
     height: 7px;
     width: 7px;
     margin: 0 4px;
-    background-color: white;
+    background-color: rgba(173, 216, 230, 0.2);
     backdrop-filter: blur(2px);
     border-radius: 50%;
     display: inline-block;
     transition: background-color 0.3s ease;
   }
-  
   .active,
   .dots:hover {
     background-color: rgba(173, 216, 230, 0.8);
-
   }
-  /* .active,
-  .circle-dot:hover{
-    border: 1px solid white;
-    padding: 7px 12px 7px 12px;
-    border-radius: 50%;
-  } */
-  /* Active state for dots */
-  .circle-dot .active {
-    border: 1px solid white ;
-    padding: 7px 12px 7px 12px;
-  }
-
   
   /* transition animation */
   .animate {
@@ -454,7 +428,7 @@ body {
   gap: 10rem; /* Space between the buttons */
   justify-content: center;
   align-items: center;
-  margin-top: 8rem;
+  margin-top: 2rem;
 }
 .custom-button {
   padding: 10px 20px;
@@ -486,7 +460,7 @@ body {
 .img-container{
   display: flex;
   justify-content: space-evenly;
-  margin-top: 8rem;
+  margin-top: 15rem;
 }
 
 .img-card img{

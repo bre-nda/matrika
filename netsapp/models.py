@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 
 class Mattress(models.Model):
@@ -90,7 +91,7 @@ class CartItem(models.Model):
     product_type = models.CharField(max_length=50)  # e.g., "mattress", "pillow"
     product_id = models.PositiveIntegerField()  # ID of the product in its respective table
     quantity = models.PositiveIntegerField(default=1)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, null=False,  default=0.00)
 
     def __str__(self):
         return f"{self.product_type.capitalize()} - {self.quantity}"
@@ -98,12 +99,12 @@ class CartItem(models.Model):
     
 #profile model
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', null=True, blank=True)
     shipping_address = models.OneToOneField('ShippingAddress', on_delete=models.SET_NULL, null=True)
     billing_address = models.OneToOneField('BillingAddress', on_delete=models.SET_NULL, null=True)
 
 class ShippingAddress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     company_name = models.CharField(max_length=100, blank=True, null=True)
@@ -117,7 +118,7 @@ class ShippingAddress(models.Model):
     email = models.EmailField(max_length=100)
 
 class BillingAddress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     company_name = models.CharField(max_length=100, blank=True, null=True)
@@ -132,7 +133,7 @@ class BillingAddress(models.Model):
   
 #order model    
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=100, choices=[('pending', 'Pending'), ('completed', 'Completed')], default='pending')
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -146,6 +147,7 @@ class Order(models.Model):
     def get_order_items(self):
         return self.order_items.all()
 
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='order_items', on_delete=models.CASCADE)
     product_name = models.CharField(max_length=255)
@@ -155,3 +157,5 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product_name} x{self.quantity}"
+    
+    

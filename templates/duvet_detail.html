@@ -85,6 +85,8 @@
         <li>Total Price: ${{ total_price }}</li>
     </ul>
 
+    <a href="{% url "checkout" %}">Checkout</a>
+
     <form method="post" action="{% url 'add_to_cart' 'duvet' duvet.id %}">
         {% csrf_token %}
         <input type="hidden" name="quantity" value="{{ quantity }}">

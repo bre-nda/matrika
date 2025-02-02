@@ -1,0 +1,59 @@
+{% extends "base.html" %} 
+{%load static%} 
+{% load bootstrap5 %}
+{% block content %}
+
+{% comment %} <h2>Your Orders</h2>
+
+{% if orders %}
+    <ul>
+        {% for order in orders %}
+            <li>
+                <strong>Order ID:</strong> {{ order.id }} <br>
+                <strong>Status:</strong> {{ order.status }} <br>
+                <strong>Total Price:</strong> ${{ order.total_price }} <br>
+                <strong>Shipping Address:</strong> {{ order.shipping_address }} <br>
+                <strong>Billing Address:</strong> {{ order.billing_address }} <br>
+                <strong>Order Date:</strong> {{ order.created_at|date:"Y-m-d H:i" }} <br>
+
+                <h4>Order Items:</h4>
+                <ul>
+                    {% for item in order.order_items.all %}
+                        <li>{{ item.product_name }} - Quantity: {{ item.quantity }} - ${{ item.total_price }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no orders yet.</p>
+{% endif %}
+
+<a href="{% url 'Home' %}">Continue Shopping</a> {% endcomment %}
+
+
+{% if orders %}
+    <h2>Your Orders</h2>
+    {% for order in orders %}
+        <div class="{% if order == latest_order %}highlight{% endif %}">
+            <h3>Order #{{ order.id }}</h3>
+            <p>Status: {{ order.status }}</p>
+            <p>Total: ${{ order.total_price }}</p>
+            <p>Placed on: {{ order.created_at }}</p>
+            <h4>Items:</h4>
+            <ul>
+                {% for item in order.order_items.all %}
+                    <li>{{ item.product_name }} x{{ item.quantity }} - ${{ item.total_price }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No orders found.</p>
+{% endif %}
+
+
+
+
+{% endblock %}

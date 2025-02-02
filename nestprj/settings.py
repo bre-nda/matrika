@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,7 +27,8 @@ SECRET_KEY = 'django-insecure-04s0c)vh#(ha-q^erf77-9felqc=!-adeget(y9z6&yrcygx4c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -108,6 +110,18 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'  # e.g., 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'kanalebrenda@gmail.com'
+EMAIL_HOST_PASSWORD = 'igxd wfjn mkwa zybm'
+DEFAULT_FROM_EMAIL = 'kanalebrenda@gmail.com'
+ADMIN_EMAIL = 'kanalebrenda@gmail.com'  # Email to notify owner
 
 
 # Internationalization

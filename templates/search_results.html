@@ -1,0 +1,32 @@
+{% extends "base.html" %} 
+{%load static%} 
+{% load bootstrap5 %}
+{% block content %}
+
+<div class="search-container">
+    <!-- Search Form -->
+    <form method="GET" action="{% url 'search_products' %}">
+        <input type="text" name="q" placeholder="Search for products..." value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if query %}
+        <h3>Search Results for "{{ query }}"</h3>
+
+        {% if results %}
+            <ul>
+                {% for item in results %}
+                    <li>
+                        <img src="{{ item.image.url }}" alt="{{ item }}" width="150">
+                        <strong>{{ item }}</strong> - Price: ${{ item.price }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No results found for "{{ query }}".</p>
+        {% endif %}
+    {% endif %}
+</div>
+
+
+{% endblock %}

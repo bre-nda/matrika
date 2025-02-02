@@ -82,6 +82,7 @@
         <li>Price per unit: ${{ bedsheet.price }}</li>
         <li>Total Price: ${{ total_price }}</li>
     </ul>
+    <a href="{% url "checkout" %}">Checkout</a>
 
     <form method="post" action="{% url 'add_to_cart' 'bedsheet' bedsheet.id %}">
         {% csrf_token %}
