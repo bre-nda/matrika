@@ -1,0 +1,152 @@
+html,
+body {
+    overflow-x: hidden;
+    box-sizing: border-box;
+    
+    /* margin: 0;
+    padding: 20px; */
+}
+body {
+    padding-top: 120px;
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+.order-success-container {
+    max-width: 100%;
+}
+
+.order-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align to the left */
+    padding-left: 10%; /* Push it slightly to the left */
+}
+
+.order-card {
+    width: 50%; /* Increased width */
+    background: #f9f9f9;
+    
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    
+}
+
+.order-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #1d3a28;
+}
+
+.order-items {
+    list-style: none;
+    padding: 0;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.product-image {
+    width: 50px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+
+/* ................ */
+/* order-detail styles */
+
+.order-details-container {
+    max-width: 600px; /* Limit width for readability */
+    margin: 20px auto 30px 50px; /* Align to the left */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-h1 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    margin-left: 50px;
+}
+
+.order-h{
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #1d3a28;
+}
+
+.order-p {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.order-details-items {
+    list-style-type: none;
+    padding: 0;
+}
+
+.order-list {
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .order-details-container {
+        max-width: 100%;
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .order-h1 {
+        font-size: 20px;
+    }
+
+    .order-h {
+        font-size: 18px;
+    }
+
+    .order-p {
+        font-size: 14px;
+    }
+}
+
+
+
+/* order-success responsiveness */
+@media (max-width: 768px) {
+    .order-card {
+        width: 85%;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-card {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .order-title {
+        font-size: 1.2rem;
+    }
+
+    .order-container {
+        padding-left: 5%;
+    }
+}
+

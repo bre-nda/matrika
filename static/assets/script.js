@@ -156,5 +156,25 @@ setInterval(() => {
 
 // ......................................................
 // pillow_detail
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+      button.addEventListener("click", function (event) {
+          event.preventDefault();
+          let form = this.closest("form");
+          let formData = new FormData(form);
 
-
+          fetch(form.action, {
+              method: "POST",
+              body: formData,
+              headers: {
+                  "X-Requested-With": "XMLHttpRequest",
+                  "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value
+              }
+          })
+          .then(response => response.json())
+          .then(data => {
+              document.getElementById("cart-count").innerText = data.cart_count;
+          });
+      });
+  });
+});

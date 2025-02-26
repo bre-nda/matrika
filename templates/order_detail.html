@@ -3,19 +3,19 @@
 {% load bootstrap5 %}
 {% block content %}
 
-<h1>Order Details - Order ID: {{ order.id }}</h1>
+<h1 class="order-h1" >Order Details - Order ID: {{ order.id }}</h1>
 
-<div class="order-details">
-    <h2>Order Summary</h2>
-    <p><strong>Status:</strong> {{ order.status|capfirst }}</p>
-    <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
-    <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
-    <p><strong>Billing Address:</strong> {{ order.billing_address }}</p>
+<div class="order-details-container">
+    <h2 class="order-h">Order Summary</h2>
+    <p class="order-p"><strong>Status:</strong> {{ order.status|capfirst }}</p>
+    <p class="order-p"><strong>Total Price:</strong> Ksh {{ order.total_price }}</p>
+    <p class="order-p"><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
+    <p class="order-p"><strong>Billing Address:</strong> {{ order.billing_address }}</p>
 
-    <h3>Items in this Order:</h3>
-    <ul>
+    <h3 class="order-h">Items in this Order:</h3>
+    <ul class="order-details-items">
         {% for item in order.get_order_items %}
-            <li>{{ item.product_name }} x{{ item.quantity }} - ${{ item.total_price }}</li>
+            <li class="order-list">{{ item.product_name }} x{{ item.quantity }} - Ksh {{ item.total_price }}</li>
         {% endfor %}
     </ul>
 </div>

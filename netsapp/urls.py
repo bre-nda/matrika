@@ -16,6 +16,8 @@ urlpatterns = [
     path('add-to-cart/<str:product_type>/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
     # path('cart/delete/<int:cart_item_id>/', views.delete_cart_item, name='delete_cart_item'),
     re_path(r'^cart/delete/(?P<cart_item_id>[\w-]+)/$', views.delete_cart_item, name='delete_cart_item'),
+    
+
     path('register/', views.register, name='register'),
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
@@ -31,4 +33,6 @@ urlpatterns = [
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name="password_reset_complete"),
     
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
+    
+    path('cart-count/', views.cart_count_api, name='cart_count_api'),
 ]

@@ -56,14 +56,41 @@
     </div>
 </div>
 
-    <div class="button-container">
+    {% comment %} <div class="button-container">
         <a href="{% url 'mattress_page' %}" class="custom-button" id="button1">
             Mattresses
         </a>
         <a href="{% url 'bedding_page' %}" class="custom-button" id="button2">
             Bedding
         </a>
-    </div>
+    </div> {% endcomment %}
+
+    {% comment %} <div class="products-container">
+        <div>
+            <img class="product-img" src="{% static "assets/mattress_2.png" %}" alt="Product 1">
+            <h3 class="product-h">Mattresses</h3>
+            <a href="#" class="shop-btn">Shop Now</a>
+        </div>
+        
+        <div>
+            <img class="product-img" src="{% static "assets/mattress_3.png" %}" alt="Product 2">
+            <h3 class="product-h">Bedding</h3>
+            <a href="#" class="shop-btn">Shop Now</a>
+        </div>
+        
+    </div> {% endcomment %}
+    <div class="product-img-container">
+        <div class="product-img-card-1">
+          <img class="stubborn" src="{% static "assets/mattress_2.png" %}">
+          <p>Message</p>
+          <a href="#" class="shop-btn">Shop Now</a>
+        </div>
+        <div class="product-img-card-2">
+          <img src="{% static "assets/mattress_3.png" %}">
+          <p>Message</p>
+          <a href="#" class="shop-btn">Shop Now</a>
+        </div>
+      </div>
     
 
     <div class="services">

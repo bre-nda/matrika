@@ -1,0 +1,148 @@
+html,
+body {
+    overflow-x: hidden;
+    box-sizing: border-box;
+    
+    /* margin: 0;
+    padding: 20px; */
+}
+body {
+    padding-top: 120px;
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+.checkout-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.checkout-left {
+    flex: 1;
+    max-width: 50%;
+}
+
+.checkout-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+/* Logo Positioned to the Right */
+.checkout-logo {
+    position: absolute;
+    left: 0;
+}
+
+/* Back to Cart Button - Positioned to the Right */
+.back-to-cart {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+    margin-right: 40px;
+}
+a.back-cart{
+    text-decoration: none;
+    color: #11142b;
+    font-size: 20px;
+}
+a.back-cart:hover{
+    text-decoration: underline;
+}
+a.back-cart i {
+    margin-right: 5px;
+}
+.shipping-button{
+    background-color: #11142b;
+    color: #ebe9eb;
+    border: none;
+    padding: 10px 15px;
+}
+.shipping-button:hover{
+    background-color: #3a3d53;
+}
+
+.checkout-right {
+    flex: 1;
+    max-width: 40%;
+}
+
+.cart-items {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart-items li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-summary {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.place-order-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+.place-button{
+    text-decoration: none;
+    color: white;
+    background-color: #1d3a28;
+    padding: 10px 15px;
+    border: none;
+}
+.place-button:hover{
+    background-color: #43a175;
+}
+
+/* Custom styling for line inputs */
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form-group input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    padding: 5px;
+    font-size: 16px;
+    background: transparent;
+}
+
+.form-group label {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    font-size: 14px;
+    color: #181818;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+    top: -20px;
+    font-size: 18px;
+    color: #1d3a28;
+}

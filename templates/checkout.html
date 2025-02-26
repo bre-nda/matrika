@@ -1,35 +1,120 @@
-{% extends "base.html" %} 
 {%load static%} 
 {% load bootstrap5 %}
 {% block content %}
 
-{% comment %} <h1>Checkout</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/light.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static "assets/checkout.css" %}">
+</head>
+
+<body>
+    <div class="back-to-cart">
+        <a href="{% url 'cart_page' %}" class="back-cart">
+            <i class="fa fa-angle-left" aria-hidden="true"></i> Back to Cart
+        </a>
+    </div>
+    
+    <!-- Checkout Title in Center & Logo to the Right -->
+    <div class="checkout-header">
+        <h1>Checkout</h1>
+        <img src="{% static 'assets/matrika logo2.jpeg' %}" alt="Matrika Logo" class="checkout-logo" style="width: 100px; height: auto;">
+    </div>
 
 {% if cart_items %}
-    <ul>
-        {% for item in cart_items %}
-            <li>
-                {{ item.product_type|capfirst }} - ID: {{ item.product_id }}<br>
-                Quantity: {{ item.quantity }}<br>
-                Total Price: ${{ item.total_price }}
-            </li>
-        {% endfor %}
-    </ul>
-    <h2>Shipping Address</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ shipping_form.as_p }}
+    <div class="checkout-container">
+        
+        <!-- Left Side: Shipping & Billing Forms (60% Width) -->
+        <div class="checkout-left">
+            
+            <h2>Shipping Address</h2><br>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in shipping_form %}
+                    <div class="form-group">
+                        {{ field }}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    </div>
+                {% endfor %}
+                <button type="submit" name="update_shipping" class="shipping-button">Update Shipping</button>
+            </form>
+            <hr>
 
-        <h2>Billing Address</h2>
-        {{ billing_form.as_p }}
+            
 
-        <button type="submit" class="btn btn-primary">Place Order</button>
-    </form>
+            {% comment %} <h2>Billing Address</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in billing_form %}
+                    <div class="form-group">
+                        {{ field }}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    </div>
+                {% endfor %}
+                <button type="submit" name="update_billing" class="billing-button">Update Billing</button>
+            </form> {% endcomment %}
+        </div>
+
+        <!-- Right Side: Cart Items & Summary (40% Width) -->
+        <div class="checkout-right">
+            <ul class="cart-items">
+                {% for item in cart_items %}
+                    <li>
+                        {% if item.image_url %}
+                            <img src="{{ item.image_url }}" alt="Product Image" style="width: 80px; height: auto;">
+                        {% endif %}
+                        <div>
+                            <strong>{{ item.product_type|capfirst }}</strong> - ID: {{ item.product_id }}<br>
+                            Quantity: {{ item.quantity }}<br>
+                            Unit Price: ${{ item.unit_price }}<br>
+                            Total Price: ${{ item.total_price }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="cart-summary">
+                <p><strong>Subtotal:</strong> ${{ cart_total }}</p>
+                <p><strong>Shipping:</strong> Free Shipping</p>
+                <p><strong>Total Price:</strong> ${{ cart_total }}</p>
+            </div>
+
+            <!-- Place Order Button -->
+            <div class="place-order-btn">
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="place_order" class="place-button">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 {% else %}
     <p>Your cart is empty. <a href="{% url 'Home' %}">Continue Shopping</a></p>
 {% endif %}
 
-<a href="{% url 'cart_page' %}" class="btn btn-secondary">Back to Cart</a> {% endcomment %}
+{% comment %} <a href="{% url 'cart_page' %}" class="btn btn-secondary">Back to Cart</a> {% endcomment %}
+
+</body>
+</html>
+
+{% endblock %}
+
+{% comment %} {% extends "base.html" %} 
+{%load static%} 
+{% load bootstrap5 %}
+{% block content %}
 
 <h1>Checkout</h1>
 
@@ -76,4 +161,4 @@
 
 
 
-{% endblock %}
+{% endblock %} {% endcomment %}

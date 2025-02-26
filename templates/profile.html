@@ -1,50 +1,102 @@
 {% extends "base.html" %} 
+{% load static %} 
+{% load bootstrap5 %}
+{% block content %}
+
+<!-- Linking the CSS file -->
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+<!-- Profile Layout -->
+<div class="profile-layout">
+    <!-- Left Side: Account Details & Order History -->
+    <div class="left-section">
+        <!-- Account Details -->
+        <form method="POST" class="account-details">
+            {% csrf_token %}
+            <h3>Account Details</h3>
+            
+            <div class="input-group">
+                {{ profile_form.first_name.label_tag }} {{ profile_form.first_name }}
+            </div>
+            <div class="input-group">
+                {{ profile_form.last_name.label_tag }} {{ profile_form.last_name }}
+            </div>
+            <div class="input-group">
+                {{ profile_form.email.label_tag }} {{ profile_form.email }}
+            </div>
+
+            <div class="password-container">
+                <label for="id_password">New Password</label>
+                <input type="password" name="password" id="id_password" placeholder="New Password">
+                <input type="checkbox" id="togglePassword"> Show Password
+            </div>
+
+            <div class="password-container">
+                <label for="id_confirm_password">Confirm Password</label>
+                <input type="password" name="confirm_password" id="id_confirm_password" placeholder="Confirm Password">
+                <input type="checkbox" id="toggleConfirmPassword"> Show Password
+            </div>
+
+            <button type="submit" name="update_profile" class="prof-button">Update Profile</button>
+        </form>
+
+        <!-- Order History -->
+        <div class="order-history">
+            <h3>Order History</h3>
+            <ul>
+                {% for order in orders %}
+                    <li><a href="{% url 'order_detail' order.id %}">Order #{{ order.id }}</a> - {{ order.created_at }}</li>
+                {% empty %}
+                    <li>No orders found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Right Side: Shipping & Billing Address -->
+    <div class="right-section">
+        <!-- Shipping Address -->
+        <form method="POST" class="shipping-form">
+            {% csrf_token %}
+            <h3>Shipping Address</h3>
+            {{ shipping_form.as_p }}
+            <button type="submit" name="update_shipping" class="prof-button">Update Shipping</button>
+        </form>
+
+        <!-- Billing Address -->
+        <form method="POST" class="billing-form">
+            {% csrf_token %}
+            <h3>Billing Address</h3>
+            {{ billing_form.as_p }}
+            <button type="submit" name="update_billing" class="prof-button">Update Billing</button>
+        </form>
+    </div>
+</div>
+
+<!-- ✅ JavaScript for Password Toggle -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            let passwordInput = document.getElementById('id_password');
+            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        });
+
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            let confirmPasswordInput = document.getElementById('id_confirm_password');
+            confirmPasswordInput.type = confirmPasswordInput.type === 'password' ? 'text' : 'password';
+        });
+    });
+</script>
+
+{% endblock %}
+
+
+
+{% comment %} {% extends "base.html" %} 
 {%load static%} 
 {% load bootstrap5 %}
 {% block content %}
 
-
-{% comment %} <div class="container">
-    <h2>Profile Settings</h2>
-
-    <!-- Profile Update -->
-    <form method="POST">
-        {% csrf_token %}
-        <h3>Account Details</h3>
-        {{ profile_form.as_p }}
-        <button type="submit" name="update_profile">Update Profile</button>
-    </form>
-    <hr>
-
-
-    <!-- Shipping Address Update -->
-    <form method="POST">
-        {% csrf_token %}
-        <h3>Shipping Address</h3>
-        {{ shipping_form.as_p }}
-        <button type="submit" name="update_shipping">Update Shipping</button>
-    </form>
-    <hr>
-
-    <!-- Billing Address Update -->
-    <form method="POST">
-        {% csrf_token %}
-        <h3>Billing Address</h3>
-        {{ billing_form.as_p }}
-        <button type="submit" name="update_billing">Update Billing</button>
-    </form>
-    <hr>
-
-    <!-- Order History -->
-    <h3>Order History</h3>
-    <ul>
-        {% for order in orders %}
-            <li><a href="{% url 'order_detail' order.id %}">Order #{{ order.id }}</a> - {{ order.created_at }}</li>
-        {% empty %}
-            <li>No orders found.</li>
-        {% endfor %}
-    </ul>
-</div> {% endcomment %}
 
 <div class="container">
     <h2>Profile Settings</h2>
@@ -119,4 +171,4 @@
 </script>
 
 
-{% endblock %}
+{% endblock %} {% endcomment %}

@@ -1,42 +1,74 @@
 {% extends "base.html" %} 
+{% load static %} 
+{% load bootstrap5 %}
+{% block content %}
+
+<div class="m-image-container">
+    <img src="{{ selected_mattress.image.url }}" alt="Image of Mattress">
+</div>
+
+<h1 class="title">Mattress - Choose Your Size</h1>
+
+<!-- Centered Form -->
+<div class="m-form-container">
+    <form method="get" action=".">
+        <label for="size">Choose a size:</label>
+        <select name="size" id="size" required>
+            <option value="">-- Select Size --</option>
+            <option value="3.5x6" {% if size == "3.5x6" %}selected{% endif %}>3.5 x 6 (42 x 74 inches)</option>
+            <option value="4x6" {% if size == "4x6" %}selected{% endif %}>4 x 6 (48 x 74 inches)</option>
+            <option value="5x6" {% if size == "5x6" %}selected{% endif %}>5 x 6 (60 x 74 inches)</option>
+            <option value="6x6" {% if size == "6x6" %}selected{% endif %}>6 x 6 (72 x 74 inches)</option>
+        </select>
+        <button class="view-details" type="submit">View Details</button>
+    </form>
+</div>
+
+{% if selected_size %}
+    {% if selected_mattress %}
+        <!-- Centered Selected Details -->
+        <div class="m-selected-details">
+            <h2>Selected Details</h2>
+            <ul>
+                <li>Type: {{ selected_mattress.get_type_display }}</li>
+                <li>Size: {{ selected_mattress.get_size_display }}</li>
+                <li>Thickness: {{ selected_mattress.thickness }} inch</li>
+                <li>Price: ${{ selected_mattress.price }}</li>
+            </ul>
+
+            <a href="{% url 'checkout' %}">Checkout</a>
+
+            <form method="post" action="{% url 'add_to_cart' 'mattress' selected_mattress.id %}">
+                {% csrf_token %}
+                <label for="quantity">Quantity:</label>
+                <input type="number" name="quantity" id="quantity" min="1" value="1" required>
+                <input type="hidden" name="price" value="{{ selected_mattress.price }}">
+                <button class="add" type="submit">Add to Cart</button>
+            </form>
+        </div>
+    {% else %}
+        <p>No mattress available in this size.</p>
+    {% endif %}
+{% else %}
+    <p>Please select a size to view details.</p>
+{% endif %}
+
+<a class="back-mat" href="{% url 'mattress_page' %}">
+    <i class="fa fa-long-arrow-left" aria-hidden="true"></i>Back to Mattresses
+</a>
+
+{% comment %} <a href="{% url 'Home' %}">Back to Home</a> {% endcomment %}
+
+{% endblock %}
+
+
+
+
+{% comment %} {% extends "base.html" %} 
 {%load static%} 
 {% load bootstrap5 %}
 {% block content %}
 
-{% comment %} <h1>{{ type|capfirst }} Mattress - {{ thickness }} Inch</h1>
-
-
-<form method="get" action="">
-    <label for="size">Choose a size:</label>
-    <select name="size" id="size" required>
-        <option value="" disabled selected>Select Size</option>
-        <option value="3.5x6" {% if selected_size == "3.5x6" %}selected{% endif %}>3.5 x 6 (42 x 74 inches)</option>
-        <option value="4x6" {% if selected_size == "4x6" %}selected{% endif %}>4 x 6 (48 x 74 inches)</option>
-        <option value="5x6" {% if selected_size == "5x6" %}selected{% endif %}>5 x 6 (60 x 74 inches)</option>
-        <option value="6x6" {% if selected_size == "6x6" %}selected{% endif %}>6 x 6 (72 x 74 inches)</option>
-    </select>
-
-    <label for="quantity">Quantity:</label>
-    <input type="number" name="quantity" id="quantity" min="1" value="{{ quantity }}" required>
-
-    <button type="submit">View Details</button>
-</form>
-
-<h2>Selected Details:</h2>
-{% if selected_mattress %}
-    <ul>
-        <li>Type: {{ selected_mattress.get_type_display }}</li>
-        <li>Size: {{ selected_mattress.get_size_display }}</li>
-        <li>Thickness: {{ selected_mattress.thickness }} inches</li>
-        <li>Price per unit: ${{ selected_mattress.price }}</li>
-        <li>Total Price: ${{ total_price }}</li>
-    </ul>
-{% else %}
-    <p>No mattress selected or item not available for the selected size.</p>
-{% endif %}
-
-
-<a href="{% url 'Home' %}">Back to Home</a> {% endcomment %}
 
 <!-- Display success message -->
 {% if messages %}
@@ -85,4 +117,4 @@
 
 <a href="{% url 'Home' %}">Back to Home</a>
 
-{% endblock %}
+{% endblock %} {% endcomment %}

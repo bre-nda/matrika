@@ -156,3 +156,22 @@ body {
     color: #101a64;
     margin-bottom: 4rem;
 }
+
+/* styling the cart count */
+.cart-badge {
+    background-color: #358b4f;
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    position: absolute;
+    top: -15px;
+    right: -8px;
+    font-weight: bold;
+}
+
+/* Ensure the parent is positioned relative */
+#cart {
+    position: relative;
+    display: inline-block;
+}

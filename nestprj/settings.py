@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'nestprj.urls'
 
 TEMPLATES = [
@@ -111,9 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'  # e.g., 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -122,6 +123,8 @@ EMAIL_HOST_USER = 'kanalebrenda@gmail.com'
 EMAIL_HOST_PASSWORD = 'igxd wfjn mkwa zybm'
 DEFAULT_FROM_EMAIL = 'kanalebrenda@gmail.com'
 ADMIN_EMAIL = 'kanalebrenda@gmail.com'  # Email to notify owner
+
+
 
 
 # Internationalization

@@ -1,4 +1,54 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="image-container">
+        <img src="{{ pillow.image.url }}" alt="Image of {{ pillow.material }} pillow">
+    </div>
+    
+    <div class="title">
+        <h1>Pillow - {{ pillow.material }}</h1>
+    </div>
+    
+    <div class="form-container">
+        <form method="get" action=".">
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" id="quantity" min="1" value="1" required>
+            <button class="view-details" type="submit">View Details</button>
+        </form>
+    </div>
+    
+    {% if selected_quantity %}
+        <div class="selected-details">
+            <h2>Product Details</h2>
+            <ul>
+                <li>Material: {{ pillow.material }}</li>
+                <li>Sold as Pair: {{ pillow.pair|yesno:"Yes,No" }}</li>
+                <li>Price per Pair: Ksh{{ pillow.price }}</li>
+                <li>Quantity: {{ selected_quantity }}</li>
+                <li>Total Price: Ksh{{ total_price }}</li>
+            </ul>
+    
+            <form method="post" action="{% url 'add_to_cart' 'pillow' pillow.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="quantity" value="{{ selected_quantity }}">
+                <input type="hidden" name="price" value="{{ pillow.price }}">
+                <button class="add" type="submit">Add to Cart</button>
+            </form>
+        </div>
+    {% endif %}
+    
+    <a class="back-bed" href="{% url 'bedding_page' %}">
+        <i class="fa fa-long-arrow-left" aria-hidden="true"></i>Back to Bedding
+    </a>
+</div>
+
+{% endblock %}
+
+
+{% comment %} {% extends "base.html" %} 
 {%load static%} 
 {% load bootstrap5 %}
 {% block content %}
@@ -8,26 +58,6 @@
 <img src="{{ pillow.image.url }}" alt="Image of {{ pillow.material }} pillow">
 <p>Price: ${{ pillow.price }} (Per Pair)</p>
 
-{% comment %} <form method="post">
-    {% csrf_token %}
-    <label for="quantity">Select Quantity:</label>
-    <input type="number" name="quantity" id="quantity" min="1" value="1" required>
-    <button type="submit">View Details</button>
-</form>
-
-{% if selected_quantity %}
-    <h2>Selected Details</h2>
-    <ul>
-        <li>Material: {{ pillow.material }}</li>
-        <li>Sold as Pair: {{ pillow.pair|yesno:"Yes,No" }}</li>
-        <li>Price per Pair: ${{ pillow.price }}</li>
-        <li>Quantity: {{ selected_quantity }}</li>
-        <li>Total Price: ${{ total_price }}</li>
-    </ul>
-{% else %}
-    <p>No details to show. Please select a quantity and click "View Details".</p>
-{% endif %}
- {% endcomment %}
 
  <!-- Display success message -->
 {% if messages %}
@@ -67,4 +97,4 @@
 
 
 <a href="{% url 'bedding_page' %}">Back to Bedding</a>
-{% endblock %}
+{% endblock %} {% endcomment %}

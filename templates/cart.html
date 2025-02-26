@@ -1,74 +1,106 @@
-{% extends "base.html" %} 
-{%load static%} 
+{% extends "base.html" %}
+{% load static %}
 {% load bootstrap5 %}
+
 {% block content %}
 
-{% comment %} <h1>Your Cart</h1>
-<ul>
-    {% if user.is_authenticated %}
-        {% for item in cart_items %}
-            <li>
-                Product: {{ item.product_type|capfirst }} - ID: {{ item.product_id }}<br>
-                Quantity: {{ item.quantity }}<br>
-                Total Price: ${{ item.total_price }}
-            </li>
-        {% endfor %}
+    {% if cart_items %}
+        <form method="post" action="{% url 'cart_page' %}">
+            {% csrf_token %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>
+                                <div class="product-container">
+                                    {% if item.image_url %}
+                                        <img src="{{ item.image_url }}" alt="Product Image">
+                                    {% endif %}
+                                    <span><strong>{{ item.product_type|default:item.product_type }}</strong> (ID: {{ item.product_id }})</span>
+                                </div>
+                            </td>
+                            <td>${{ item.unit_price }}</td>
+                            <td>
+                                <div class="quantity-container">
+                                    <button type="button" class="quantity-btn" onclick="decreaseQuantity('{{ item.cart_item_key }}')">−</button>
+                                    <input type="number" class="quantity-input" name="quantity_{{ item.cart_item_key }}" id="quantity_{{ item.cart_item_key }}" value="{{ item.quantity }}" min="1">
+                                    <button type="button" class="quantity-btn" onclick="increaseQuantity('{{ item.cart_item_key }}')">+</button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="total-price-container">
+                                    ${{ item.total_price }}
+                                    <button type="submit" name="delete_cart_item" value="{{ item.cart_item_key }}" class="button-delete">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+
+            <div class="cart-buttons">
+                <a href="{% url 'Home' %}" class="continue-shopping">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i> Continue Shopping
+                </a>
+                <button type="submit" name="update_cart" class="cart-update">Update Cart</button>
+            </div>
+            
+
+            <!-- Cart Summary Section -->
+            <div class="cart-summary">
+                <table>
+                    <tr>
+                        <td class="label">Subtotal:</td>
+                        <td class="label-total">${{ cart_total }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Shipping:</td>
+                        <td class="label-total">Free Shipping</td>
+                    </tr>
+                    <tr>
+                        <td class="label"><strong>Cart Total:</strong></td>
+                        <td class="label-total"><strong>${{ cart_total }}</strong></td>
+                    </tr>
+                </table>
+            </div>
+            
+
+            <div class="cart-actions">
+                <a class="cart-checkout" href="{% url 'checkout' %}">Proceed to Checkout</a>
+            </div>
+        </form>
     {% else %}
-        {% for item in cart_items %}
-            <li>
-                Product: {{ item.product_type|capfirst }} - ID: {{ item.product_id }}<br>
-                Quantity: {{ item.quantity }}<br>
-                Total Price: ${{ item.total_price }}
-            </li>
-        {% empty %}
-            <p>Your cart is empty.</p>
-        {% endfor %}
+        <p>Your cart is empty.</p>
     {% endif %}
-</ul>
-<a href="{% url 'Home' %}">Continue Shopping</a> {% endcomment %}
 
-<h1>Your Cart</h1>
-<ul>
-    {% if user.is_authenticated %}
-        {% for item in cart_items %}
-            <li>
-                Product: {{ item.product_type|capfirst }} - ID: {{ item.product_id }}<br>
-                Quantity: {{ item.quantity }}<br>
-                Total Price: ${{ item.total_price }}<br>
-                {% comment %} <form method="post" action="{% url 'delete_cart_item' item.product_id item.product_type %}">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form> {% endcomment %}
-                <form method="post" action="{% url 'delete_cart_item' item.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-        {% endfor %}
-    {% else %}
-        {% for item in cart_items %}
-            <li>
-                Product: {{ item.product_type|capfirst }} - ID: {{ item.product_id }}<br>
-                Quantity: {{ item.quantity }}<br>
-                Total Price: ${{ item.total_price }}<br>
-                {% comment %} <form method="post" action="{% url 'delete_cart_item' item.product_id item.product_type %}">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form> {% endcomment %}
-                <form method="post" action="{% url 'delete_cart_item' item.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-        {% empty %}
-            <p>Your cart is empty.</p>
-        {% endfor %}
-    {% endif %}
-</ul>
+    <script>
+        function increaseQuantity(cartItemKey) {
+            let quantityInput = document.getElementById('quantity_' + cartItemKey);
+            let currentValue = parseInt(quantityInput.value);
+            quantityInput.value = currentValue + 1;
+        }
 
-<a href="{% url "checkout" %}">Checkout</a>
-<a href="{% url 'Home' %}">Continue Shopping</a>
-
-
+        function decreaseQuantity(cartItemKey) {
+            let quantityInput = document.getElementById('quantity_' + cartItemKey);
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        }
+    </script>
+    
 
 {% endblock %}
+
+

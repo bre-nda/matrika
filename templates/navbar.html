@@ -1,4 +1,4 @@
-
+{% load static %}
 <nav class="cont">
     <div class="zesty">
         <span class="texty">
@@ -18,7 +18,6 @@
                             <li><a href="{% url 'quilted_mattress_page' %}">Quilted Mattress</a></li>
                         </ul>
                     </li>
-                    {% comment %} <li><a id="tact" class="" href="#Bedding">Bedding</a></li> {% endcomment %}
                     <li class="dropdown">
                         <a id="tact" class="dropbtn" href="{% url 'bedding_page' %}">Bedding<i class="fa fa-caret-down"></i></a>
                         <ul class="dropdown-menu">
@@ -38,19 +37,6 @@
                     </button>
                     <a id="brand" class="navbar-brand" href="#">Matrika</a>
                 </div>
-                    {% comment %} <div class="usery">
-                        <a id="search" href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
-                        <a id="user" href=""><i class="fa fa-user" aria-hidden="true"></i>
-                            {% if user.is_authenticated %}
-                                <p>{{ user.username }}!</p>
-                                <a href="{% url 'logout' %}">Logout</a>
-                            {% else %}
-                                <a href="{% url 'login' %}">Login</a>
-                                <a href="{% url 'register' %}">Register</a>
-                            {% endif %}
-                        </a>
-                        <a id="cart" href="{% url "cart_page" %}"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                    </div> {% endcomment %}
                     <div class="usery">
                         <a id="search" href="{% url 'search_products' %}"><i class="fa fa-search" aria-hidden="true"></i></a>
                         
@@ -74,7 +60,10 @@
                             </div>
                         </details>
                     
-                        <a id="cart" href="{% url "cart_page" %}"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                        <a id="cart" href="{% url "cart_page" %}">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            <span id="cart-count" class="cart-badge">{{ cart_count }}</span>
+                        </a>
                     </div>
                     
             </div>

@@ -1,0 +1,139 @@
+html,
+body {
+    overflow-x: hidden;
+    box-sizing: border-box;
+    
+    /* margin: 0;
+    padding: 20px; */
+}
+body {
+    padding-top: 120px;
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 1.6;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background: url('/static/assets/mattress_1.png') no-repeat center center/cover;
+    backdrop-filter: blur(10px); /* Blurs everything behind */
+}
+
+/* styling the login and registration pages */
+.register-container{
+    background: #fff; /* Solid white background */
+    padding: 20px;
+    margin-top: 35rem;
+    margin-bottom: 5rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+.login-container {
+    background: #fff;
+    padding: 20px;
+    /* margin-bottom: 10rem; */
+    margin-top: -14rem;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Style headings */
+h1, h2 {
+    color: #11142b;
+}
+
+/* Input fields */
+input[type="text"], 
+input[type="email"], 
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    
+}
+label{
+    color: #11142b;
+}
+label.show-password{
+    font-size: 16px;
+    font-weight: 450;
+}
+
+/* Buttons */
+.reg, .log{
+    width: 100%;
+    padding: 10px;
+    background: #756352;
+    color: #d4d1d1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.reg, .log:hover {
+    background: #756352;
+}
+
+/* Links */
+.log-reg{
+    font-size: 17px;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-top: 8px;
+}
+.log-reg a{
+    color: #11142b;
+}
+.log-reg:hover{
+    text-decoration: underline;
+    color: #11142b;
+}
+.log-button{
+    font-size: 16px;
+    text-decoration: underline;
+    color: #11142b;
+}
+.log-button:hover {
+    text-decoration: underline;
+    color: #11142b;
+}
+
+.reg-button {
+    color: #11142b;
+    text-decoration: underline;
+    font-size: 17px;
+    text-transform: uppercase;
+}
+.reg-button:hover {
+    text-decoration: underline;
+    color: #11142b;
+}
+.p-log{
+    margin-top: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .register-container, .login-container {
+        width: 90%;
+        margin: auto;
+        margin-bottom: 50px;
+    }
+}
+
+

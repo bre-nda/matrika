@@ -1,3 +1,4 @@
+from decimal import Decimal
 import re
 from unittest import result
 from django.conf import settings
@@ -21,10 +22,13 @@ from django.utils.encoding import force_bytes, force_str
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.tokens import default_token_generator
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+
+from django.apps import apps
+from uuid import uuid4  # Import UUID to generate unique keys
 
 
 # Create your views here.
@@ -174,13 +178,47 @@ def bedsheet_detail(request, pk):
     })
     
 # Add to cart
+# def add_to_cart(request, product_type, product_id):
+#     quantity = int(request.POST.get('quantity', 1))
+#     price = float(request.POST.get('price'))
+#     total_price = quantity * price
+
+#     if request.user.is_authenticated:
+#         # Save to database for logged-in users
+#         CartItem.objects.create(
+#             user=request.user,
+#             product_type=product_type,
+#             product_id=product_id,
+#             quantity=quantity,
+#             total_price=total_price,
+#         )
+#     else:
+#         # Ensure session is created for guest users
+#         if not request.session.session_key:
+#             request.session.create()
+
+#         cart = request.session.get('cart', [])
+
+#         # Add item to session cart
+#         cart.append({
+#             'id': str(uuid.uuid4()),  # Unique ID for each item
+#             'product_type': product_type,
+#             'product_id': product_id,
+#             'quantity': quantity,
+#             'total_price': total_price,
+#         })
+
+#         request.session['cart'] = cart  # Save cart to session
+#         request.session.modified = True  # Mark session as modified
+
+#     messages.success(request, "Item added to cart successfully.")
+#     return redirect(request.META.get('HTTP_REFERER', '/'))
 def add_to_cart(request, product_type, product_id):
     quantity = int(request.POST.get('quantity', 1))
     price = float(request.POST.get('price'))
     total_price = quantity * price
 
     if request.user.is_authenticated:
-        # Save to database for logged-in users
         CartItem.objects.create(
             user=request.user,
             product_type=product_type,
@@ -188,39 +226,129 @@ def add_to_cart(request, product_type, product_id):
             quantity=quantity,
             total_price=total_price,
         )
+        cart_count = CartItem.objects.filter(user=request.user).count()
     else:
-        # Ensure session is created for guest users
         if not request.session.session_key:
             request.session.create()
 
         cart = request.session.get('cart', [])
-
-        # Add item to session cart
         cart.append({
-            'id': str(uuid.uuid4()),  # Unique ID for each item
+            'id': str(uuid.uuid4()),
             'product_type': product_type,
             'product_id': product_id,
             'quantity': quantity,
             'total_price': total_price,
         })
 
-        request.session['cart'] = cart  # Save cart to session
-        request.session.modified = True  # Mark session as modified
+        request.session['cart'] = cart
+        request.session.modified = True
+        cart_count = len(cart)
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'cart_count': cart_count})
 
     messages.success(request, "Item added to cart successfully.")
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
 
-# carthtml
+# cart.html view
 def cart_page(request):
     if request.user.is_authenticated:
-        cart_items = CartItem.objects.filter(user=request.user)
+        cart_items = list(CartItem.objects.filter(user=request.user))
     else:
-        # Fetch cart from session for guest users
         cart_items = request.session.get('cart', [])
 
-    return render(request, 'cart.html', {'cart_items': cart_items})
+    updated_cart = []  # Store processed items
+
+    # Assign unique keys, fetch images, and calculate unit price
+    for index, item in enumerate(cart_items):
+        if isinstance(item, CartItem):
+            item.cart_item_key = str(item.id)  # Use database ID for authenticated users
+            item.unit_price = item.total_price / item.quantity if item.quantity > 0 else 0
+            product_type = item.product_type
+            product_id = item.product_id
+        else:
+            item['cart_item_key'] = f"{item['product_id']}_{index}"  # Unique session key
+            item['unit_price'] = item['total_price'] / item['quantity'] if item['quantity'] > 0 else 0
+            product_type = item['product_type']
+            product_id = item['product_id']
+
+        # Fetch product images safely
+        model_class = apps.get_model(app_label='netsapp', model_name=product_type.capitalize())
+        try:
+            product = model_class.objects.get(id=product_id)
+            image_url = product.image.url if product.image else None
+        except model_class.DoesNotExist:
+            image_url = None
+
+        if isinstance(item, CartItem):
+            item.image_url = image_url
+            updated_cart.append(item)
+        else:
+            item['image_url'] = image_url
+            updated_cart.append(item)
+
+    if not request.user.is_authenticated:
+        request.session['cart'] = updated_cart
+        request.session.modified = True
+
+    if request.method == 'POST':
+        # ✅ Handling Update Cart
+        if 'update_cart' in request.POST:
+            for key, value in request.POST.items():
+                if key.startswith('quantity_'):
+                    cart_item_key = key.replace("quantity_", "")
+                    new_quantity = int(value)
+
+                    if new_quantity < 1:
+                        messages.error(request, "Quantity must be at least 1.")
+                        return redirect('cart_page')
+
+                    if request.user.is_authenticated:
+                        cart_item = CartItem.objects.filter(user=request.user, id=cart_item_key).first()
+                        if cart_item:
+                            unit_price = cart_item.total_price / cart_item.quantity
+                            cart_item.quantity = new_quantity
+                            cart_item.total_price = unit_price * new_quantity
+                            cart_item.save()
+                    else:
+                        # Update guest cart correctly
+                        for item in cart_items:
+                            if item['cart_item_key'] == cart_item_key:
+                                unit_price = item['total_price'] / item['quantity']
+                                item['quantity'] = new_quantity
+                                item['total_price'] = unit_price * new_quantity
+                                break
+                        request.session['cart'] = cart_items  # Save updated cart
+                        request.session.modified = True
+
+            messages.success(request, "Cart updated successfully!")
+
+        # ✅ Handling Delete Cart Item
+        elif 'delete_cart_item' in request.POST:
+            cart_item_key = request.POST.get('delete_cart_item')
+
+            if not cart_item_key:
+                messages.error(request, "Invalid item key.")
+                return redirect('cart_page')
+
+            if request.user.is_authenticated:
+                CartItem.objects.filter(user=request.user, id=cart_item_key).delete()
+            else:
+                cart_items = [item for item in cart_items if item['cart_item_key'] != cart_item_key]
+                request.session['cart'] = cart_items
+                request.session.modified = True
+
+            messages.success(request, "Item removed from cart!")
+
+        return redirect('cart_page')
+
+    cart_total = sum(item.total_price for item in cart_items) if request.user.is_authenticated else sum(item['total_price'] for item in cart_items)
+
+    return render(request, 'cart.html', {'cart_items': cart_items, 'cart_total': cart_total})
+
+
 
 # delete cart
 def delete_cart_item(request, cart_item_id):
@@ -242,60 +370,19 @@ def delete_cart_item(request, cart_item_id):
 
     return redirect('cart_page')
 
+
+# fetching cart count
+def cart_count_api(request):
+    if request.user.is_authenticated:
+        cart_count = CartItem.objects.filter(user=request.user).count()
+    else:
+        cart = request.session.get('cart', [])
+        cart_count = len(cart)
+    
+    return JsonResponse({'cart_count': cart_count})
+
+
 # User Registration
-# def register(request):
-#     if request.method == 'POST':
-#         first_name = request.POST['first_name']
-#         last_name = request.POST['last_name']
-#         username = request.POST['username']
-#         email = request.POST['email']
-#         password1 = request.POST['password1']
-#         password2 = request.POST['password2']
-
-#         if password1 != password2:
-#             messages.error(request, "Passwords do not match.")
-#             return redirect('register')
-
-#         if User.objects.filter(username=username).exists():
-#             messages.error(request, "Username is already taken.")
-#             return redirect('register')
-
-#         if User.objects.filter(email=email).exists():
-#             messages.error(request, "Email is already registered.")
-#             return redirect('register')
-
-#         # Create user
-#         user = User.objects.create_user(
-#             username=username,
-#             email=email,
-#             password=password1,
-#             first_name=first_name,
-#             last_name=last_name
-#         )
-#         user.save()
-
-#         # Automatically log in the user
-#         login(request, user)
-
-#         # Transfer session cart to the authenticated user cart
-#         session_cart = request.session.get('cart', [])
-#         if session_cart:
-#             for item in session_cart:
-#                 CartItem.objects.create(
-#                     user=user,
-#                     product_type=item['product_type'],
-#                     product_id=item['product_id'],
-#                     quantity=item['quantity'],
-#                     total_price=item['total_price']
-#                 )
-#             del request.session['cart']  # Clear session cart after transfer
-
-#         messages.success(request, "Registration successful. You can now place your order.")
-        
-#         # Redirect to checkout page
-#         return redirect('checkout')
-
-#     return render(request, 'register.html')
 def register(request):
     if request.method == 'POST':
         first_name = request.POST['first_name']
@@ -327,6 +414,8 @@ def register(request):
             is_active=False  # Make user inactive until email verification
         )
         user.save()
+        
+    
 
         # Send confirmation email
         current_site = get_current_site(request)
@@ -345,22 +434,8 @@ def register(request):
     return render(request, 'register.html')
 
 
+
 # User Login
-# def login_user(request):
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(request, username=username, password=password)
-
-#         if user is not None:
-#             login(request, user)
-#             messages.success(request, "Login successful.")
-#             return redirect('Home')  # Replace 'Home' with your desired home page
-#         else:
-#             messages.error(request, "Invalid username or password.")
-#             return redirect('login')
-
-#     return render(request, 'login.html')
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -380,12 +455,27 @@ def login_user(request):
             send_mail(subject, message, 'kanalebrenda@gmail.com', [user.email], fail_silently=False)
 
             messages.success(request, "Login successful.")
-            return redirect('Home')
+
+            # Check if user was trying to check out
+            next_url = request.GET.get('next')
+            has_cart_items = CartItem.objects.filter(user=user).exists()
+
+            if 'checkout_redirect' in request.session:
+                del request.session['checkout_redirect']
+                return redirect('checkout')
+            elif next_url:
+                return redirect(next_url)
+            elif has_cart_items:
+                return redirect('cart_page')
+            else:
+                return redirect('Home')
+
         else:
             messages.error(request, "Invalid username or password.")
             return redirect('login')
 
     return render(request, 'login.html')
+
 
 
 
@@ -460,113 +550,44 @@ def order_detail(request, order_id):
         'order': order
     })
 
+
 #checkout
-# def checkout(request):
-#     if not request.user.is_authenticated:
-#         messages.info(request, "Please create an account or log in to proceed with checkout.")
-#         return redirect('register')
-
-#     cart_items = CartItem.objects.filter(user=request.user)
-
-#     if not cart_items:
-#         messages.error(request, "Your cart is empty.")
-#         return redirect('cart_page')
-
-#     # Get UserProfile & associated addresses
-#     user_profile, _ = UserProfile.objects.get_or_create(user=request.user)
-    
-#     # Ensure existing addresses are linked
-#     if not user_profile.shipping_address:
-#         user_profile.shipping_address = ShippingAddress.objects.create(user=request.user)
-#         user_profile.save()
-
-#     if not user_profile.billing_address:
-#         user_profile.billing_address = BillingAddress.objects.create(user=request.user)
-#         user_profile.save()
-
-#     shipping_address = user_profile.shipping_address
-#     billing_address = user_profile.billing_address
-
-#     if request.method == 'POST':
-#         # Handle shipping update
-#         if 'update_shipping' in request.POST:
-#             shipping_form = ShippingAddressForm(request.POST, instance=shipping_address)
-#             if shipping_form.is_valid():
-#                 shipping_form.save()
-#                 messages.success(request, "Shipping address updated successfully!")
-#                 return redirect('checkout')
-
-#         # Handle billing update
-#         elif 'update_billing' in request.POST:
-#             billing_form = BillingAddressForm(request.POST, instance=billing_address)
-#             if billing_form.is_valid():
-#                 billing_form.save()
-#                 messages.success(request, "Billing address updated successfully!")
-#                 return redirect('checkout')
-
-#         # Handle placing the order
-#         elif 'place_order' in request.POST:
-#             shipping_form = ShippingAddressForm(instance=shipping_address)  # No validation, just retain
-#             billing_form = BillingAddressForm(instance=billing_address)  # No validation, just retain
-
-#             total_price = sum(item.total_price for item in cart_items)
-
-#             # Create Order
-#             order = Order.objects.create(
-#                 user=request.user,
-#                 total_price=total_price,
-#                 shipping_address=f"{shipping_address.street_address}, {shipping_address.town_city}, {shipping_address.country}, {shipping_address.phone}, {shipping_address.email}",
-#                 billing_address=f"{billing_address.street_address}, {billing_address.town_city}, {billing_address.country}, {billing_address.phone}, {billing_address.email}",
-#             )
-
-#             # Add cart items to order
-#             for item in cart_items:
-#                 OrderItem.objects.create(
-#                     order=order,
-#                     product_name=f"{item.product_type} - {item.product_id}",
-#                     quantity=item.quantity,
-#                     price=item.total_price / item.quantity,
-#                     total_price=item.total_price
-#                 )
-
-#             # Clear cart after order placement
-#             cart_items.delete()
-
-#             # Send email notification
-#             send_mail(
-#                 'New Order Placed',
-#                 f'A new order with ID {order.id} has been placed by {request.user.username}.',
-#                 'yourshop@example.com',
-#                 ['owner@example.com'],
-#                 fail_silently=False,
-#             )
-
-#             messages.success(request, "Your order has been placed successfully!")
-#             request.session['latest_order_id'] = order.id
-#             return redirect('order_success')
-
-#     else:
-#         shipping_form = ShippingAddressForm(instance=shipping_address)
-#         billing_form = BillingAddressForm(instance=billing_address)
-
-#     return render(request, 'checkout.html', {
-#         'cart_items': cart_items,
-#         'shipping_form': shipping_form,
-#         'billing_form': billing_form
-#     })
+@login_required
 def checkout(request):
-    if not request.user.is_authenticated:
-        messages.info(request, "Please create an account or log in to proceed with checkout.")
-        return redirect('register')
-
+    # Get authenticated user's cart items
     cart_items = CartItem.objects.filter(user=request.user)
 
-    if not cart_items:
+    # Check if user has a guest cart stored in session
+    guest_cart = request.session.get('cart', [])
+
+    # If guest cart exists, transfer items to authenticated user's cart
+    if guest_cart:
+        for item in guest_cart:
+            cart_item, created = CartItem.objects.get_or_create(
+                user=request.user,
+                product_type=item['product_type'],
+                product_id=item['product_id'],
+                defaults={'quantity': item['quantity'], 'total_price': item['total_price']}
+            )
+            if not created:
+                cart_item.quantity += item['quantity']
+                # cart_item.total_price += item['total_price']
+                total_price = sum(Decimal(item.total_price) for item in cart_items)
+                cart_item.save()
+
+        # Clear guest cart from session
+        request.session.pop('cart', None)
+
+        # Refresh cart items after transferring guest cart
+        cart_items = CartItem.objects.filter(user=request.user)
+
+    if not cart_items.exists():
         messages.error(request, "Your cart is empty.")
         return redirect('cart_page')
 
+    # Get user profile and addresses
     user_profile, _ = UserProfile.objects.get_or_create(user=request.user)
-    
+
     if not user_profile.shipping_address:
         user_profile.shipping_address = ShippingAddress.objects.create(user=request.user)
         user_profile.save()
@@ -578,7 +599,18 @@ def checkout(request):
     shipping_address = user_profile.shipping_address
     billing_address = user_profile.billing_address
 
-    # Initialize forms before any condition to avoid "UnboundLocalError"
+    # Attach product images to cart items dynamically
+    for item in cart_items:
+        model_class = apps.get_model(app_label='netsapp', model_name=item.product_type.capitalize())
+        try:
+            product = model_class.objects.get(id=item.product_id)
+            item.image_url = product.image.url if hasattr(product, 'image') else None
+        except model_class.DoesNotExist:
+            item.image_url = None  # Default if product doesn't exist
+
+        item.unit_price = item.total_price / item.quantity  # Calculate unit price
+
+    # Initialize forms before conditions
     shipping_form = ShippingAddressForm(instance=shipping_address)
     billing_form = BillingAddressForm(instance=billing_address)
 
@@ -599,11 +631,13 @@ def checkout(request):
 
         elif 'place_order' in request.POST:
             total_price = sum(item.total_price for item in cart_items)
+            shipping_fee = 0  # Free shipping
+            grand_total = total_price + shipping_fee
 
             # Create Order
             order = Order.objects.create(
                 user=request.user,
-                total_price=total_price,
+                total_price=grand_total,
                 shipping_address=f"{shipping_address.street_address}, {shipping_address.town_city}, {shipping_address.country}, {shipping_address.phone}, {shipping_address.email}",
                 billing_address=f"{billing_address.street_address}, {billing_address.town_city}, {billing_address.country}, {billing_address.phone}, {billing_address.email}",
             )
@@ -614,7 +648,7 @@ def checkout(request):
                     order=order,
                     product_name=f"{item.product_type} - {item.product_id}",
                     quantity=item.quantity,
-                    price=item.total_price / item.quantity,
+                    price=item.unit_price,
                     total_price=item.total_price
                 )
                 order_items.append(order_item)
@@ -662,37 +696,47 @@ def checkout(request):
             request.session['latest_order_id'] = order.id
             return redirect('order_success')
 
+    # Calculate cart total and subtotal
+    subtotal = sum(item.total_price for item in cart_items)
+    shipping_fee = 0  # Free shipping
+    total_price = subtotal + shipping_fee
+
     return render(request, 'checkout.html', {
         'cart_items': cart_items,
+        'subtotal': subtotal,
+        'shipping_fee': shipping_fee,
+        'total_price': total_price,
         'shipping_form': shipping_form,
         'billing_form': billing_form
     })
-    
+
+
+
 # order_success
-# @login_required
-# def order_success(request):
-#     # Fetch all orders for the authenticated user
-#     orders = Order.objects.filter(user=request.user).order_by('-created_at')
-
-#     if not orders.exists():
-#         messages.warning(request, "No orders found.")
-#         return redirect('Home')  # Redirect to homepage if no orders found
-
-#     return render(request, 'order_success.html', {
-#         'orders': orders,
-#     })
-
 @login_required
 def order_success(request):
-    # Fetch all orders for the authenticated user, prefetching items for performance
+    # Fetch all orders for the authenticated user and prefetch order items
     orders = Order.objects.filter(user=request.user).order_by('-created_at').prefetch_related('order_items')
 
     if not orders.exists():
         messages.warning(request, "No orders found.")
-        return render(request, 'order_success.html', {'orders': []})  # Show empty state instead of redirecting
+        return render(request, 'order_success.html', {'orders': []})
 
-    # Highlight the latest order
     latest_order = orders.first()
+
+    # Attach image URL to each order item by parsing product type and id from product_name
+    for order in orders:
+        for item in order.order_items.all():
+            try:
+                # Assume product_name format is "ProductType - product_id"
+                parts = item.product_name.split(' - ')
+                product_type = parts[0].strip()
+                product_id = parts[1].strip()
+                model_class = apps.get_model(app_label='netsapp', model_name=product_type.capitalize())
+                product = model_class.objects.get(id=product_id)
+                item.image_url = product.image.url if hasattr(product, 'image') and product.image else None
+            except Exception as e:
+                item.image_url = None
 
     return render(request, 'order_success.html', {
         'orders': orders,
