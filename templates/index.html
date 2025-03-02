@@ -7,28 +7,29 @@
 <div class="carousel-container">
     {% for mattress in mattresses %}
     <div class="mySlides animate">
-        <img src="{{ mattress.image.url }}" alt="{{ mattress.type }}">
-        <div class="text">{{ mattress.get_type_display }}</div>
+        {% comment %} <img src="{{ mattress.image.url }}" alt="{{ mattress.type }}"> {% endcomment %}
+        <img src="{% static "assets/mattress_1.png" %}" alt="slide" />
+        {% comment %} <div class="text">{{ mattress.get_type_display }}</div> {% endcomment %}
     </div>
     
     <div class="mySlides animate">
         <img src="{% static "assets/mattress_2.png" %}" alt="slide" />
-        <div class="text">Plain Mattress</div>
+        {% comment %} <div class="text">Plain Mattress</div> {% endcomment %}
     </div>
     
     <div class="mySlides animate">
         <img src="{% static "assets/mattress_3.png" %}" alt="slide" />
-        <div class="text">Quilted Mattress</div>
+        {% comment %} <div class="text">Quilted Mattress</div> {% endcomment %}
     </div>
     
     <div class="mySlides animate">
         <img src="{% static "assets/mattress_1.png" %}" alt="slide" class="center-block"/>
-        <div class="text">Quilted Mattress</div>
+        {% comment %} <div class="text">Quilted Mattress</div> {% endcomment %}
     </div>
     
     <div class="mySlides animate">
         <img src="{% static "assets/mattress_2.png" %}" alt="slide" class="center-block"/>
-        <div class="text">Bedding</div>
+        {% comment %} <div class="text">Bedding</div> {% endcomment %}
     </div>
     {% endfor %}
     
@@ -64,33 +65,33 @@
             Bedding
         </a>
     </div> {% endcomment %}
-
-    {% comment %} <div class="products-container">
-        <div>
-            <img class="product-img" src="{% static "assets/mattress_2.png" %}" alt="Product 1">
-            <h3 class="product-h">Mattresses</h3>
-            <a href="#" class="shop-btn">Shop Now</a>
-        </div>
-        
-        <div>
-            <img class="product-img" src="{% static "assets/mattress_3.png" %}" alt="Product 2">
-            <h3 class="product-h">Bedding</h3>
-            <a href="#" class="shop-btn">Shop Now</a>
-        </div>
-        
-    </div> {% endcomment %}
     <div class="product-img-container">
-        <div class="product-img-card-1">
-          <img class="stubborn" src="{% static "assets/mattress_2.png" %}">
-          <p>Message</p>
-          <a href="#" class="shop-btn">Shop Now</a>
+        <div class="product-img-card">
+            <img class="stubborn" src="{% static "assets/mattress_3.png" %}">
+            <p>Mattresses</p>
+            <a href="#" class="shop-now">Shop Now</a>
         </div>
-        <div class="product-img-card-2">
-          <img src="{% static "assets/mattress_3.png" %}">
-          <p>Message</p>
-          <a href="#" class="shop-btn">Shop Now</a>
+        <div class="product-img-card">
+            <img src="{% static "assets/mattress_3.png" %}">
+            <p>Bedding</p>
+            <a href="#" class="shop-now">Shop Now</a>
         </div>
-      </div>
+    </div>
+
+    
+    <section class="about-section">
+        <div class="about-container">
+            <div class="about-text">
+                <h2 id="about-title">About Us</h2>
+                <p>Welcome to our premium bedding store, where comfort meets quality. We specialize in high-quality mattresses, pillows, duvets, and bedsheets designed for ultimate relaxation. Our mission is to provide the best sleep experience with eco-friendly and durable bedding products.</p>
+                <a href="#" class="learn-more-btn">Learn More</a>
+            </div>
+            <div class="about-image">
+                <img src="{% static "assets/mattress_3.png" %}" alt="Bedding Products">
+            </div>
+        </div>
+    </section>
+
     
 
     <div class="services">

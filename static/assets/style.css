@@ -79,9 +79,14 @@ body {
     font-size: 30px;
 }
 
-.image-brand{
-  width: 100px;
-  height: 60px;
+.navbar-brand img{
+  width: 370px;
+  height: auto;
+  margin-top: -14rem;
+  margin-left: -9rem;
+  background: none;
+  
+
 }
 /* .nest{
   color: #f58ada;
@@ -319,15 +324,6 @@ body {
 
 
 /* continuous image styles */
-/* .bodyy {
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-    object-fit: cover;
-  } */
   .carousel-container {
     overflow: hidden;
     width: 100%;
@@ -345,25 +341,36 @@ body {
   .mySlides {
     display: none;
   }
-  .mySlides img {
-    display: block;
-    width: 100%;
-    height: 80vh;
-    object-fit: cover;
-    overflow: hidden;
-    position:absolute; 
-    filter: brightness(65%);
-
-    
-  }
   
-  /* image gradient overlay [optional] */
-  /*  .mySlides::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-      background-image: linear-gradient(-45deg, rgba(110, 0, 255, .1), rgba(70, 0, 255, .2));
-  } */
+.mySlides {
+  position: relative;
+}
+
+/* Ensure the image is properly positioned */
+.mySlides img {
+  display: block;
+  width: 100%;
+  height: 80vh;
+  object-fit: cover;
+  position: relative; /* Ensure the image is the reference point */
+}
+
+/* Add the gradient line effect at the bottom of the image */
+.mySlides::after {
+  content: "";
+  position: absolute;
+  bottom: 10;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%; /* Adjust width for best visual effect */
+  height: 40px; /* Maximum thickness at the center */
+  /* background: linear-gradient(to right, transparent, #358b4f 50%, transparent); */
+  background-color: #358b4f; /* Solid green color */
+  border-radius: 50%;
+  opacity: 0.8; /* Slight transparency for a softer look */
+}
+
+
   
   /* Next & previous buttons */
 
@@ -464,7 +471,9 @@ body {
       transform: scale(1) rotateY(0deg);
     }
   }
-  /* ................................ */
+
+
+/* ................................ */
 
 /* styling the button */
 
@@ -508,27 +517,137 @@ body {
   gap: 20px;
   
 }
-
-.product-img-card-1 img{
-  /* border: solid black 1px; */
+.product-img-card img{
   margin: 10px;
-  width: 400px;
-  height: 480px;
-}
-.product-img-card-2 img{
-  /* border: solid black 1px; */
-  margin: 10px;
-  width: 400px;
+  width: 360px;
   height: 400px;
 }
-
-.product-img-card-1 p{
+.product-img-card p{
   text-align: center;
- margin-top: -4rem;
+  font-size: 23px;
+  font-weight: 500;
+  text-transform: uppercase;
 }
-.product-img-card-2 p{
+.shop-now {
+  display: block;
   text-align: center;
-  margin-top: -5px;
+  width: fit-content;
+  margin: 10px auto;
+  background-color: #154734; 
+  color: #d4d1d1;
+  padding: 10px 20px;
+  text-decoration: none; /* Removes underline */
+  font-size: 19px;
+  transition: background-color 0.3s ease;
+}
+
+.shop-now:hover {
+  background-color:#358b4f; /* Darker blue on hover */
+  color: #d4d1d1;
+  text-decoration: none;
+}
+
+/* ...................... */
+/* styling the about section */
+
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+.about-container {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+}
+
+.about-text {
+  background-color: #358b4f;
+  color: white;
+  padding: 50px;
+  flex: 1;
+  position: relative;
+  clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+}
+
+.about-text h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.about-text p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Learn More Button */
+.learn-more-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #050D07;
+  color: #d4d1d1;
+  text-decoration: none;
+  font-size: 18px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.learn-more-btn:hover {
+  background-color: #2c6e40;
+  color: white;
+}
+
+.about-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+/* Scroll Animation */
+.show {
+  opacity: 1;
+  transform: translateY(0);
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+@media (max-width: 768px) {
+  .about-container {
+      flex-direction: column;
+  }
+
+  .about-text {
+      clip-path: none;
+      text-align: center;
+      padding: 30px;
+  }
+
+  .about-image img {
+      border-radius: 0;
+  }
 }
 
 
@@ -539,12 +658,12 @@ body {
 .img-container{
   display: flex;
   justify-content: space-evenly;
-  margin-top: 15rem;
+  margin-bottom: 7rem;
 }
 
 .img-card img{
   margin: 10px;
-  width: 150px;
+  width: 100px;
 }
 
 .img-card p{

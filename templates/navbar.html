@@ -35,7 +35,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a id="brand" class="navbar-brand" href="#">Matrika</a>
+                    {% comment %} <a id="brand" class="navbar-brand" href="#">Matrika</a> {% endcomment %}
+                    <a id="brand" class="navbar-brand" href="#">
+                        <img src="{% static "assets/brand-logo.png" %}" alt="">
+                    </a>
                 </div>
                     <div class="usery">
                         <a id="search" href="{% url 'search_products' %}"><i class="fa fa-search" aria-hidden="true"></i></a>
